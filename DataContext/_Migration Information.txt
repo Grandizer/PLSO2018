@@ -1,0 +1,23 @@
+﻿While in the Solution\DataContext folder:
+
+dotnet ef migrations add NewStuff -s ..\PLSO2018    To create a migration called NewStuff
+dotnet ef migrations remove       -s ..\PLSO2018    To remove (the last) migration
+
+dotnet ef database update         -s ..\PLSO2018    To apply migrations to the database
+dotnet ef database update BackTo  -s ..\PLSO2018    To Unapply migration(s) back to the BackTo migration
+dotnet ef database drop           -s ..\PLSO2018    To drop/delete the database
+
+
+Migrations: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations
+EF Core Migrations: https://www.benday.com/2017/02/17/ef-core-migrations-without-hard-coding-a-connection-string-using-idbcontextfactory/
+https://github.com/aspnet/EntityFramework/issues/8024
+
+
+If you start getting the following message:
+	Introducing FOREIGN KEY constraint 'FK_Tenant_Subscriber_SubscriberID' on table 'Tenant' may cause cycles or multiple cascade paths. Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, or modify other FOREIGN KEY constraints.
+	Could not create constraint. See previous errors.
+
+	You can fix it by adding this code to the TenantMap (in this case) class:
+		builder.HasOne(x => x.Subscriber).WithMany(x => x.Tenants)
+			.IsRequired()
+			.OnDelete(DeleteBehavior.Restrict);
