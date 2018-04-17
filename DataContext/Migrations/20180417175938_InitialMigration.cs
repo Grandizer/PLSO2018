@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using PLSO2018.Entities;
 using System;
-using System.Collections.Generic;
 
 namespace DataContext.Migrations {
 
@@ -29,22 +29,6 @@ namespace DataContext.Migrations {
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_ImagePath", x => x.ID);
-					});
-
-			migrationBuilder.CreateTable(
-					name: "Plat",
-					schema: "data",
-					columns: table => new {
-						ID = table.Column<int>(nullable: false)
-									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-						Name = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-						Date = table.Column<DateTime>(nullable: false),
-						Page = table.Column<int>(unicode: false, nullable: false),
-						Volumne = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-						ModifieddByID = table.Column<int>(nullable: false),
-					},
-					constraints: table => {
-						table.PrimaryKey("PK_Plat", x => x.ID);
 					});
 
 			migrationBuilder.CreateTable(
@@ -106,6 +90,23 @@ namespace DataContext.Migrations {
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_EmailType", x => x.ID);
+					});
+
+			migrationBuilder.CreateTable(
+					name: "ExcelTemplate",
+					schema: "ref",
+					columns: table => new {
+						ID = table.Column<int>(nullable: false)
+									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						ColumnIndex = table.Column<int>(nullable: false),
+						DisplayName = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
+						FieldName = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
+						ExampleData = table.Column<string>(unicode: false, maxLength: 100, nullable: false),
+						Validation = table.Column<string>(unicode: false, maxLength: 1000, nullable: false),
+						ModifiedByID = table.Column<int>(nullable: false),
+					},
+					constraints: table => {
+						table.PrimaryKey("PK_ExcelTemplate", x => x.ID);
 					});
 
 			migrationBuilder.CreateTable(
@@ -493,27 +494,32 @@ namespace DataContext.Migrations {
 					columns: table => new {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-						SurveyorID = table.Column<int>(nullable: false),
-						SurveyTypeID = table.Column<int>(nullable: false),
 						LocationID = table.Column<int>(nullable: false),
-						SurveyYear = table.Column<decimal>(nullable: false),
-						DeedVolume = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						DeedPage = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						SurveyTypeID = table.Column<int>(nullable: false),
+						SurveyorID = table.Column<int>(nullable: false),
+						AutomatedFileNumber = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						ClientName = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
+						DeedVolume = table.Column<int>(nullable: true),
+						DeedPage = table.Column<int>(nullable: true),
+						SurveyDate = table.Column<DateTime>(nullable: false),
+						SurveyName = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
 						County = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
 						Township = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-						PlatID = table.Column<int>(nullable: false),
-						OriginalLot = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						City = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						Subdivision = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						OriginalLot = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
+						Section = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
 						Tract = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						ParcelNumber = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						City = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
+						Subdivision = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
 						Sublot = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						Street = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						ImageFileName = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						ParcelNumber = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
+						StreetNumber = table.Column<string>(unicode: false, maxLength: 15, nullable: true),
+						StreetName = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						StreetSuffix = table.Column<string>(unicode: false, maxLength: 4, nullable: true),
+						CrossStreet = table.Column<string>(nullable: true),
+						ImageFileName = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
 						RecordingInfo = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						Description = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-						MyProperty = table.Column<int>(nullable: false),
-						ModifieddByID = table.Column<int>(nullable: false),
+						Description = table.Column<string>(unicode: false, maxLength: 2000, nullable: true),
+						ModifiedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_Record", x => x.ID);
@@ -522,13 +528,6 @@ namespace DataContext.Migrations {
 											column: x => x.LocationID,
 											principalSchema: "data",
 											principalTable: "Location",
-											principalColumn: "ID",
-											onDelete: ReferentialAction.Cascade);
-						table.ForeignKey(
-											name: "FK_Record_Plat_PlatID",
-											column: x => x.PlatID,
-											principalSchema: "data",
-											principalTable: "Plat",
 											principalColumn: "ID",
 											onDelete: ReferentialAction.Cascade);
 						table.ForeignKey(
@@ -677,12 +676,6 @@ namespace DataContext.Migrations {
 					column: "LocationID");
 
 			migrationBuilder.CreateIndex(
-					name: "IX_Record_PlatID",
-					schema: "data",
-					table: "Record",
-					column: "PlatID");
-
-			migrationBuilder.CreateIndex(
 					name: "IX_Record_SurveyTypeID",
 					schema: "data",
 					table: "Record",
@@ -787,6 +780,83 @@ namespace DataContext.Migrations {
 					schema: "xref",
 					table: "SurveyorPhone",
 					column: "SurveyorID");
+
+			// Seed some of the data
+			DateTime Now = DateTime.Now;
+
+			// Address Types
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AddressType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 1, "Unknown", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AddressType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 2, "Residential", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AddressType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 3, "Commercial", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AddressType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 4, "Business", null });
+
+			// Audit Actions
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AuditAction), columns: new[] { "ID", "IsActive", "Name", "EnumName", "Description", "CreatedByID", "CreationDate" }, values: new object[] { 1, true, "Add", "Add", null, 0, Now });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AuditAction), columns: new[] { "ID", "IsActive", "Name", "EnumName", "Description", "CreatedByID", "CreationDate" }, values: new object[] { 2, true, "Update", "Update", null, 0, Now });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AuditAction), columns: new[] { "ID", "IsActive", "Name", "EnumName", "Description", "CreatedByID", "CreationDate" }, values: new object[] { 3, true, "Delete", "Delete", null, 0, Now });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(AuditAction), columns: new[] { "ID", "IsActive", "Name", "EnumName", "Description", "CreatedByID", "CreationDate" }, values: new object[] { 4, true, "Manual Delete", "ManualDelete", null, 0, Now });
+
+			// Email Types
+			migrationBuilder.InsertData(schema: "ref", table: nameof(EmailType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 1, "Unknown", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(EmailType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 2, "Business", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(EmailType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 3, "Personal", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(EmailType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 4, "Other", null });
+
+			// Location Types
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LocationType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 1, "Unknown", "Undetermined type of Location" });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LocationType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 2, "LatLong", "Latitude and Lognitude" });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LocationType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 3, "Address", "Address entred to get a LatLong" });
+
+			// Log Off Types
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LogOffType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 1, "Unknown", "Undetermined style of Log Off" });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LogOffType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 2, "Normal", "The user clicked the Log Off link" });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LogOffType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 3, "Timed Out", "The user timed out and was automatically logged off" });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LogOffType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 4, "Lazy Timeout", "The user was logged out of an old session at the time of their new log in" });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(LogOffType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 5, "Forced Log Off", "The UserLogon record was updated by an admin to allow them to log back in" });
+
+			// Phone Types
+			migrationBuilder.InsertData(schema: "ref", table: nameof(PhoneType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 1, "Unknown", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(PhoneType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 2, "Business", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(PhoneType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 3, "Home", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(PhoneType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 4, "Mobile", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(PhoneType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 5, "Facsimile", null });
+
+			// Survey Types
+			migrationBuilder.InsertData(schema: "ref", table: nameof(SurveyType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 1, "Unknown", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(SurveyType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 2, "Boundary", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(SurveyType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 3, "Topo", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(SurveyType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 4, "ALTA", null });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(SurveyType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 5, "MLS", null });
+
+			// Excel Template Fields
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  1,  1, "Comments", "*** Comments", "Anything", "Any row with contents in this filed will be ignored", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  2,  2, "Notes", nameof(Record.Description), "Just behind the McDonald's", "Place any other info here that would aid in searching", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  3,  3, "Map Image Name", nameof(Record.ImageFileName), "KRAUSE00099", "No spaces, hyphens. 5 digit numerical counter. MUST BE EXACT", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  4,  4, "Survey Name", nameof(Record.SurveyName), "Lot split for Lustri", "This should be the title as it appears on the map, we shouldn't interpret mistakes here", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  5,  5, "Client", nameof(Record.ClientName), "Dino A F Lustri", "Full Client name as it appears on the Survey Map. No periods. Include middle initials when applicable", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  6,  6, "Defunct or Historic Township", nameof(Record.Township), "Dover", "Full name. No need to include the word township", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  7,  7, "Lot No.", nameof(Record.OriginalLot), "10,11,12", "Only Numbers with multiples seperated by commas, no spaces", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  8,  8, "Section", nameof(Record.Section), "10,11,12", "Only Numbers with multiples seperated by commas, no spaces", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] {  9,  9, "Tract", nameof(Record.Tract), "10,11,12,Blake,Ely", "", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 10, 10, "County", nameof(Record.County), "Cuyahoga", "Full county name because first 3 letters are duplated", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 11, 11, "Surveyor Name", "*** Surveyor Name", "Frank B Krause Jr", "Full name because there are repate names like Krause", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 12, 12, "Surveyor Number", "*** Surveyor Number", "567", "Only Numbers", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 13, 13, "Date Month", "*** Date Month", "OCT", "3 letter month", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 14, 14, "Date Year", "*** Date Year", "1939", "Only numbers. 4 digit year", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 15, 15, "Address No.", nameof(Record.StreetNumber), "12345A", "This can have letters for unit numbers, etc.", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 16, 16, "Principle Street Name", nameof(Record.StreetName), "Southwest New Philly", "Can have spaces, should include full descriptive name", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 17, 17, "Street Suffix", nameof(Record.StreetSuffix), "BLVD", "No Periods.  See https://pe.usps.com/text/pub28/28apc_002.htm", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 18, 18, "Cross Street Name", nameof(Record.CrossStreet), "NW MAIN ST", "In case of fronting more than one street or corner lots, place second street name here. Entire name can be in this field. If there are more streets like a subdivision plat, those can be listed under the Notes fields.", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 19, 19, "City, Village, Township", nameof(Record.City), "Bay Village", "Spaces are OK", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 20, 20, "PPN", nameof(Record.ParcelNumber), "123-45-678,123-45-679", "Numbers and letters depending on county. Separate multiple parcel numbers with commas. Enter entire parcel number, not just ending suffix", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 21, 21, "Volume", nameof(Record.DeedVolume), "123", "Numbers Only", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 22, 22, "Page", nameof(Record.DeedPage), "45", "Numbers Only", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 23, 23, "AFN", nameof(Record.AutomatedFileNumber), "20111965485", "", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 24, 24, "Sublot", nameof(Record.Sublot), "10,11,12", "Numbers only. Multiples separated by commas. No spaces", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 25, 25, "Subdivision", nameof(Record.Subdivision), "Barrington", "Full subdivision name", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 26, 26, "Instrument #/Recorder #/Document #", nameof(Record.RecordingInfo), "???", "???", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 27, 27, "Survey Type", nameof(Record.SurveyType), "Boundary", "Enter one of the following or leave blank if unknown: Boundary, Topo, ALTA, MLS", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 28, 28, "Location", nameof(Record.Location), "41.498924,-81.689951", "If known, enter the Latitude and Longitude separated by commas", 0 });
 		}
 
 		protected override void Down(MigrationBuilder migrationBuilder) {
@@ -855,8 +925,8 @@ namespace DataContext.Migrations {
 					schema: "data");
 
 			migrationBuilder.DropTable(
-					name: "Plat",
-					schema: "data");
+					name: "ExcelTemplate",
+					schema: "ref");
 
 			migrationBuilder.DropTable(
 					name: "SurveyType",

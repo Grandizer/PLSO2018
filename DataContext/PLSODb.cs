@@ -60,7 +60,7 @@ namespace DataContext {
 					if (!string.IsNullOrWhiteSpace(updateAudit.Data))
 						this.Set<Audit>().Add(updateAudit);
 				} else if (e.Entity is TemporalBase) {
-					((TemporalBase)e.Entity).ModifieddByID = userID;
+					((TemporalBase)e.Entity).ModifiedByID = userID;
 				} // if this is a AuditableBase derrived class
 			} // foreach of the UPDATE'd entities
 
@@ -118,8 +118,8 @@ namespace DataContext {
 					if (((AuditableBase)e.Entity).CreatedByID == 0)
 						((AuditableBase)e.Entity).CreatedByID = userID;
 				} else if (e.Entity is TemporalBase) {
-					if (((TemporalBase)e.Entity).ModifieddByID == 0)
-						((TemporalBase)e.Entity).ModifieddByID = userID;
+					if (((TemporalBase)e.Entity).ModifiedByID == 0)
+						((TemporalBase)e.Entity).ModifiedByID = userID;
 				} // if this is a common AuditableBase'd entity
 			} // foreach of the INSERT entities
 
@@ -183,7 +183,6 @@ namespace DataContext {
 		public DbSet<ImagePath> ImagePaths { get; set; }
 		public DbSet<Location> Locations { get; set; }
 		public DbSet<Phone> Phones { get; set; }
-		public DbSet<Plat> Plats { get; set; }
 		public DbSet<Record> Records { get; set; }
 		public DbSet<ApplicationUser> Surveyors { get; set; }
 
@@ -194,6 +193,7 @@ namespace DataContext {
 		// Ref schema
 		public DbSet<AddressType> AddressTypes { get; set; }
 		public DbSet<EmailType> EmailTypes { get; set; }
+		public DbSet<ExcelTemplate> ExcelTemplates { get; set; }
 		public DbSet<LocationType> LocationTypes { get; set; }
 		public DbSet<LogOffType> LogOffTypes { get; set; }
 		public DbSet<PhoneType> PhoneTypes { get; set; }
@@ -224,7 +224,6 @@ namespace DataContext {
 			builder.ApplyConfiguration(new ImagePathMap());
 			builder.ApplyConfiguration(new LocationMap());
 			builder.ApplyConfiguration(new PhoneMap());
-			builder.ApplyConfiguration(new PlatMap());
 			builder.ApplyConfiguration(new RecordMap());
 			builder.ApplyConfiguration(new ApplicationUserMap());
 
@@ -237,6 +236,7 @@ namespace DataContext {
 			builder.ApplyConfiguration(new AddressTypeMap());
 			builder.ApplyConfiguration(new AuditActionMap());
 			builder.ApplyConfiguration(new EmailTypeMap());
+			builder.ApplyConfiguration(new ExcelTemplateMap());
 			builder.ApplyConfiguration(new LocationTypeMap());
 			builder.ApplyConfiguration(new LogOffTypeMap());
 			builder.ApplyConfiguration(new PhoneTypeMap());

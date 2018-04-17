@@ -11,7 +11,7 @@ using System;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(PLSODb))]
-    [Migration("20180411181525_InitialMigration")]
+    [Migration("20180417175938_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -414,6 +414,40 @@ namespace DataContext.Migrations
                     b.ToTable("EventLog","log");
                 });
 
+            modelBuilder.Entity("PLSO2018.Entities.ExcelTemplate", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ColumnIndex");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("ExampleData")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
+
+                    b.Property<string>("FieldName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .IsUnicode(false);
+
+                    b.Property<int>("ModifiedByID");
+
+                    b.Property<string>("Validation")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(false);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ExcelTemplate","ref");
+                });
+
             modelBuilder.Entity("PLSO2018.Entities.ImagePath", b =>
                 {
                     b.Property<int>("ID")
@@ -561,40 +595,22 @@ namespace DataContext.Migrations
                     b.ToTable("PhoneType","ref");
                 });
 
-            modelBuilder.Entity("PLSO2018.Entities.Plat", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int>("ModifieddByID");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<int>("Page")
-                        .IsUnicode(false);
-
-                    b.Property<string>("Volumne")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Plat","data");
-                });
-
             modelBuilder.Entity("PLSO2018.Entities.Record", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("City")
+                    b.Property<string>("AutomatedFileNumber")
                         .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("ClientName")
+                        .HasMaxLength(100)
                         .IsUnicode(false);
 
                     b.Property<string>("County")
@@ -602,44 +618,51 @@ namespace DataContext.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<string>("DeedPage")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                    b.Property<string>("CrossStreet");
 
-                    b.Property<string>("DeedVolume")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                    b.Property<int?>("DeedPage");
+
+                    b.Property<int?>("DeedVolume");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(100)
+                        .HasMaxLength(2000)
                         .IsUnicode(false);
 
                     b.Property<string>("ImageFileName")
-                        .HasMaxLength(50)
+                        .HasMaxLength(255)
                         .IsUnicode(false);
 
                     b.Property<int>("LocationID");
 
-                    b.Property<int>("ModifieddByID");
-
-                    b.Property<int>("MyProperty");
+                    b.Property<int>("ModifiedByID");
 
                     b.Property<string>("OriginalLot")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<string>("ParcelNumber")
-                        .HasMaxLength(50)
+                        .HasMaxLength(255)
                         .IsUnicode(false);
-
-                    b.Property<int>("PlatID");
 
                     b.Property<string>("RecordingInfo")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<string>("Street")
+                    b.Property<string>("Section")
                         .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("StreetName")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("StreetNumber")
+                        .HasMaxLength(15)
+                        .IsUnicode(false);
+
+                    b.Property<string>("StreetSuffix")
+                        .HasMaxLength(4)
                         .IsUnicode(false);
 
                     b.Property<string>("Subdivision")
@@ -650,9 +673,13 @@ namespace DataContext.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<int>("SurveyTypeID");
+                    b.Property<DateTime>("SurveyDate");
 
-                    b.Property<decimal>("SurveyYear");
+                    b.Property<string>("SurveyName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
+
+                    b.Property<int>("SurveyTypeID");
 
                     b.Property<int>("SurveyorID");
 
@@ -668,8 +695,6 @@ namespace DataContext.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("LocationID");
-
-                    b.HasIndex("PlatID");
 
                     b.HasIndex("SurveyTypeID");
 
@@ -887,11 +912,6 @@ namespace DataContext.Migrations
                     b.HasOne("PLSO2018.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PLSO2018.Entities.Plat", "Plat")
-                        .WithMany()
-                        .HasForeignKey("PlatID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PLSO2018.Entities.SurveyType", "SurveyType")

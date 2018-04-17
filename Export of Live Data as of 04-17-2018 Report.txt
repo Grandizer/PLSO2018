@@ -1,0 +1,431 @@
+The execution was successful
+
+- Initializing Data Flow Task (Success)
+
+- Initializing Connections (Success)
+
+- Setting SQL Command (Success)
+
+- Setting Source Connection (Success)
+
+- Setting Destination Connection (Success)
+
+- Validating (Warning)
+	Messages
+	* Warning 0x80049304: Data Flow Task 1: Warning: Could not open global shared memory to communicate with performance DLL; data flow performance counters are not available.  To resolve, run this package as an administrator, or on the system's console.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Prepare for Execute (Success)
+
+- Pre-execute (Success)
+
+- Executing (Success)
+
+- Copying to [backup].[Record] (Success)
+	* 10 rows transferred
+
+- Copying to [data].[Address] (Success)
+	* 12 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 1: The final commit for the data insertion in "Destination 1 - Address" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 1: The final commit for the data insertion in "Destination 2 - Email" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 1: The final commit for the data insertion  in "Destination 1 - Address" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 1: The final commit for the data insertion  in "Destination 2 - Email" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [data].[Email] (Success)
+	* 31 rows transferred
+
+- Copying to [data].[Error] (Success)
+	* 114 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 1: The final commit for the data insertion in "Destination 3 - Error" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 1: The final commit for the data insertion  in "Destination 3 - Error" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [data].[ImagePath] (Success)
+	* 5 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 1: The final commit for the data insertion in "Destination - Record" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 1: The final commit for the data insertion in "Destination 4 - ImagePath" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 1: The final commit for the data insertion  in "Destination 4 - ImagePath" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 1: The final commit for the data insertion  in "Destination - Record" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [data].[Location] (Success)
+	* 11 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 2: The final commit for the data insertion in "Destination 5 - Location" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 2: The final commit for the data insertion in "Destination 6 - Phone" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 2: The final commit for the data insertion in "Destination 9 - Surveyor" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 2: The final commit for the data insertion  in "Destination 6 - Phone" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 2: The final commit for the data insertion  in "Destination 5 - Location" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 2: The final commit for the data insertion  in "Destination 9 - Surveyor" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [data].[Phone] (Success)
+	* 11 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 2: The final commit for the data insertion in "Destination 7 - Plat" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 2: The final commit for the data insertion  in "Destination 7 - Plat" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [data].[Plat] (Success)
+	* 0 rows transferred
+
+- Copying to [data].[Record] (Success)
+	* 3574 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 2: The final commit for the data insertion in "Destination 8 - Record" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 2: The final commit for the data insertion  in "Destination 8 - Record" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [data].[Surveyor] (Success)
+	* 129 rows transferred
+
+- Copying to [data].[UserLogon] (Success)
+	* 918 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 3: The final commit for the data insertion in "Destination 10 - UserLogon" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 3: The final commit for the data insertion  in "Destination 10 - UserLogon" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [dbo].[Addresses] (Success)
+	* 3 rows transferred
+
+- Copying to [dbo].[AddressTypes] (Success)
+	* 3 rows transferred
+
+- Copying to [dbo].[ImagePaths] (Success)
+	* 3 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 3: The final commit for the data insertion in "Destination 11 - Addresses" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 3: The final commit for the data insertion in "Destination 14 - Locations" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 3: The final commit for the data insertion in "Destination 12 - AddressTypes" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 3: The final commit for the data insertion in "Destination 13 - ImagePaths" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 3: The final commit for the data insertion  in "Destination 11 - Addresses" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 3: The final commit for the data insertion  in "Destination 14 - Locations" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 3: The final commit for the data insertion  in "Destination 12 - AddressTypes" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 3: The final commit for the data insertion  in "Destination 13 - ImagePaths" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [dbo].[Locations] (Success)
+	* 11 rows transferred
+
+- Copying to [dbo].[LocationTypes] (Success)
+	* 2 rows transferred
+
+- Copying to [dbo].[LogoffTypes] (Success)
+	* 4 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 4: The final commit for the data insertion in "Destination 15 - LocationTypes" has started.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [dbo].[Plats] (Success)
+	* 3 rows transferred
+
+	Messages
+	* Information 0x402090e0: Data Flow Task 4: The final commit for the data insertion  in "Destination 15 - LocationTypes" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 4: The final commit for the data insertion in "Destination 19 - Surveyors" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 4: The final commit for the data insertion in "Destination 16 - LogoffTypes" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 4: The final commit for the data insertion in "Destination 17 - Plats" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 4: The final commit for the data insertion  in "Destination 17 - Plats" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 4: The final commit for the data insertion  in "Destination 16 - LogoffTypes" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 4: The final commit for the data insertion  in "Destination 19 - Surveyors" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [dbo].[Records] (Success)
+	* 3572 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 4: The final commit for the data insertion in "Destination 18 - Records" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 4: The final commit for the data insertion  in "Destination 18 - Records" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [dbo].[Surveyors] (Success)
+	* 124 rows transferred
+
+- Copying to [dbo].[SurveyTypes] (Success)
+	* 5 rows transferred
+
+- Copying to [dbo].[UserLogons] (Success)
+	* 202 rows transferred
+
+- Copying to [reference].[AddressType] (Success)
+	* 4 rows transferred
+
+- Copying to [reference].[EmailType] (Success)
+	* 4 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 5: The final commit for the data insertion in "Destination 22 - AddressType" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 5: The final commit for the data insertion in "Destination 21 - UserLogons" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 5: The final commit for the data insertion in "Destination 24 - LocationType" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 5: The final commit for the data insertion in "Destination 20 - SurveyTypes" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 5: The final commit for the data insertion in "Destination 23 - EmailType" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 5: The final commit for the data insertion  in "Destination 21 - UserLogons" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 5: The final commit for the data insertion  in "Destination 24 - LocationType" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 5: The final commit for the data insertion  in "Destination 20 - SurveyTypes" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 5: The final commit for the data insertion  in "Destination 22 - AddressType" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 5: The final commit for the data insertion  in "Destination 23 - EmailType" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [reference].[LocationType] (Success)
+	* 3 rows transferred
+
+- Copying to [reference].[LogoffType] (Success)
+	* 5 rows transferred
+
+- Copying to [reference].[PhoneType] (Success)
+	* 6 rows transferred
+
+- Copying to [reference].[SurveyType] (Success)
+	* 5 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 6: The final commit for the data insertion in "Destination 26 - PhoneType" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 6: The final commit for the data insertion in "Destination 25 - LogoffType" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 6: The final commit for the data insertion  in "Destination 28 - SurveyorAddress" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 6: The final commit for the data insertion in "Destination 27 - SurveyType" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 6: The final commit for the data insertion  in "Destination 29 - SurveyorEmail" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 6: The final commit for the data insertion  in "Destination 26 - PhoneType" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 6: The final commit for the data insertion  in "Destination 25 - LogoffType" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 6: The final commit for the data insertion  in "Destination 27 - SurveyType" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [relation].[SurveyorAddress] (Success)
+	* 3 rows transferred
+
+- Copying to [relation].[SurveyorEmail] (Success)
+	* 19 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 6: The final commit for the data insertion in "Destination 28 - SurveyorAddress" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090df: Data Flow Task 6: The final commit for the data insertion in "Destination 29 - SurveyorEmail" has started.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Copying to [relation].[SurveyorPhone] (Success)
+	* 6 rows transferred
+
+	Messages
+	* Information 0x402090df: Data Flow Task 7: The final commit for the data insertion in "Destination 30 - SurveyorPhone" has started.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x402090e0: Data Flow Task 7: The final commit for the data insertion  in "Destination 30 - SurveyorPhone" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Post-execute (Success)
+	Messages
+	* Information 0x4004300b: Data Flow Task 1: "Destination - Record" wrote 10 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 1: "Destination 1 - Address" wrote 12 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 1: "Destination 2 - Email" wrote 31 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 1: "Destination 3 - Error" wrote 114 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 1: "Destination 4 - ImagePath" wrote 5 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 2: "Destination 5 - Location" wrote 11 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 2: "Destination 6 - Phone" wrote 11 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 2: "Destination 7 - Plat" wrote 0 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 2: "Destination 8 - Record" wrote 3574 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 2: "Destination 9 - Surveyor" wrote 129 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 3: "Destination 10 - UserLogon" wrote 918 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 3: "Destination 11 - Addresses" wrote 3 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 3: "Destination 12 - AddressTypes" wrote 3 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 3: "Destination 13 - ImagePaths" wrote 3 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 3: "Destination 14 - Locations" wrote 11 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 4: "Destination 15 - LocationTypes" wrote 2 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 4: "Destination 16 - LogoffTypes" wrote 4 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 4: "Destination 17 - Plats" wrote 3 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 4: "Destination 18 - Records" wrote 3572 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 4: "Destination 19 - Surveyors" wrote 124 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 5: "Destination 20 - SurveyTypes" wrote 5 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 5: "Destination 21 - UserLogons" wrote 202 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 5: "Destination 22 - AddressType" wrote 4 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 5: "Destination 23 - EmailType" wrote 4 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 5: "Destination 24 - LocationType" wrote 3 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 6: "Destination 25 - LogoffType" wrote 5 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 6: "Destination 26 - PhoneType" wrote 6 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 6: "Destination 27 - SurveyType" wrote 5 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 6: "Destination 28 - SurveyorAddress" wrote 3 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 6: "Destination 29 - SurveyorEmail" wrote 19 rows.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 7: "Destination 30 - SurveyorPhone" wrote 6 rows.
+	 (SQL Server Import and Export Wizard)
+	
+
+
+

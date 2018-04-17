@@ -9,7 +9,7 @@ namespace PLSO2018.Entities.Support {
 		public int ID { get; set; }
 
 		[Required]
-		public int ModifieddByID { get; set; }
+		public int ModifiedByID { get; set; }
 
 	}
 }
