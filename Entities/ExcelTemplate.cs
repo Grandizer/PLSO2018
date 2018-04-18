@@ -9,6 +9,7 @@ namespace PLSO2018.Entities {
 		public string FieldName { get; set; } // This is the corresponding Record.xxx field name
 		public string ExampleData { get; set; }
 		public string Validation { get; set; }
+		public bool IsCalculated { get; set; }
 
 	}
 }

@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using DataContext.Support;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PLSO2018.Entities.Services;
+using DataContext.Repositories;
 
 namespace PLSO2018.Website {
 
@@ -97,6 +98,9 @@ namespace PLSO2018.Website {
 
 			// Add application services.
 			services.AddTransient<IEmailSender, EmailSender>();
+
+			// Add Repositories here
+			services.AddScoped(typeof(ExcelTemplateRepo));
 
 			services.AddMvc();
 		}

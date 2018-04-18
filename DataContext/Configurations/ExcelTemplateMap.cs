@@ -10,6 +10,8 @@ namespace DataContext.Configurations {
 			builder.ToTable(nameof(ExcelTemplate), "ref");
 			builder.HasKey(x => x.ID);
 
+			builder.Property(x => x.IsCalculated)
+				.IsRequired();
 			builder.Property(x => x.ColumnIndex)
 				.IsRequired();
 			builder.Property(x => x.DisplayName)

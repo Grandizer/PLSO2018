@@ -435,6 +435,8 @@ namespace DataContext.Migrations
                         .HasMaxLength(20)
                         .IsUnicode(false);
 
+                    b.Property<bool>("IsCalculated");
+
                     b.Property<int>("ModifiedByID");
 
                     b.Property<string>("Validation")
