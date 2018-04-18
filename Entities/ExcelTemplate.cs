@@ -10,6 +10,12 @@ namespace PLSO2018.Entities {
 		public string ExampleData { get; set; }
 		public string Validation { get; set; }
 		public bool IsCalculated { get; set; }
+		public bool IsRequired { get; set; } = false;
+
+		/// <summary>
+		/// Total number of Characters to show.
+		/// </summary>
+		public int ColumnWidth { get; set; } = 25;
 
 	}
 }

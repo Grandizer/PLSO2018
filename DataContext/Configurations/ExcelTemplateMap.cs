@@ -12,6 +12,10 @@ namespace DataContext.Configurations {
 
 			builder.Property(x => x.IsCalculated)
 				.IsRequired();
+			builder.Property(x => x.IsRequired)
+				.IsRequired();
+			builder.Property(x => x.ColumnWidth)
+				.IsRequired();
 			builder.Property(x => x.ColumnIndex)
 				.IsRequired();
 			builder.Property(x => x.DisplayName)

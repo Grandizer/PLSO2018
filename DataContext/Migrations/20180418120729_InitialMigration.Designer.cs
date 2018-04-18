@@ -11,7 +11,7 @@ using System;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(PLSODb))]
-    [Migration("20180417190719_InitialMigration")]
+    [Migration("20180418120729_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -421,6 +421,8 @@ namespace DataContext.Migrations
 
                     b.Property<int>("ColumnIndex");
 
+                    b.Property<int>("ColumnWidth");
+
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -437,6 +439,8 @@ namespace DataContext.Migrations
                         .IsUnicode(false);
 
                     b.Property<bool>("IsCalculated");
+
+                    b.Property<bool>("IsRequired");
 
                     b.Property<int>("ModifiedByID");
 

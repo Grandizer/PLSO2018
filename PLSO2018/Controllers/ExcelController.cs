@@ -24,6 +24,9 @@ namespace PLSO2018.Controllers {
 
 		private ExcelTemplateRepo excelTemplateRepo;
 		private ICellStyle IsBold;
+		private ICellStyle IsTopAlign;
+		private ICellStyle IsBlue;
+		private ICellStyle IsValidation;
 
 		public ExcelController(ExcelTemplateRepo excelTemplateRepo, ILoggerFactory loggerFactory) {
 			this.excelTemplateRepo = excelTemplateRepo;
@@ -44,6 +47,8 @@ namespace PLSO2018.Controllers {
 				IWorkbook workbook = new XSSFWorkbook();
 				ISheet sheet1 = workbook.CreateSheet("PLSO Record Import");
 				IsBold = CreateBoldStyle(workbook);
+				IsBlue = CreateBlueStyle(workbook);
+				IsValidation = CreateValidationStyle(workbook);
 
 				int RowIndex = 0;
 
@@ -52,7 +57,9 @@ namespace PLSO2018.Controllers {
 				foreach (var col in Columns.Result) {
 					var Cell = row.CreateCell(col.ColumnIndex - 1);
 
-					if (col.Validation.StartsWith("REQUIRED:"))
+					sheet1.SetColumnWidth(col.ColumnIndex - 1, (col.ColumnWidth * 256));
+
+					if (col.IsRequired)
 						Cell.CellStyle = IsBold;
 
 					Cell.SetCellType(CellType.String);
@@ -65,6 +72,7 @@ namespace PLSO2018.Controllers {
 					var Cell = row.CreateCell(col.ColumnIndex - 1);
 					Cell.SetCellType(CellType.String);
 					Cell.SetCellValue(col.ExampleData);
+					Cell.CellStyle = IsBlue;
 				} // foreach of the columns on the Example Data row
 
 				row = sheet1.CreateRow(RowIndex++);
@@ -72,7 +80,9 @@ namespace PLSO2018.Controllers {
 				foreach (var col in Columns.Result) {
 					var Cell = row.CreateCell(col.ColumnIndex - 1);
 					Cell.SetCellType(CellType.String);
-					Cell.SetCellValue(col.Validation);
+					Cell.SetCellValue((col.IsRequired ? "REQUIRED: " : "") + col.Validation);
+					Cell.CellStyle = IsValidation;
+					Cell.CellStyle.WrapText = true;
 				} // foreach of the columns on the Validation row
 
 				XSSFFormulaEvaluator.EvaluateAllFormulaCells(workbook);
@@ -105,14 +115,51 @@ namespace PLSO2018.Controllers {
 
 		private static ICellStyle CreateBoldStyle(IWorkbook workbook) {
 			var Result = workbook.CreateCellStyle();
-
 			var Font = workbook.CreateFont();
+
 			Font.Boldweight = (short)FontBoldWeight.Bold;
 			Result.SetFont(Font);
 			Result.DataFormat = HSSFDataFormat.GetBuiltinFormat("0.00");
 
 			return Result;
 		}
+
+		private static ICellStyle CreateTopAlignmentStyle(IWorkbook workbook) {
+			var Result = workbook.CreateCellStyle();
+
+			Result.VerticalAlignment = VerticalAlignment.Top;
+
+			return Result;
+		}
+
+		private static ICellStyle CreateBlueStyle(IWorkbook workbook) {
+			var Result = workbook.CreateCellStyle();
+			Result.FillForegroundColor = HSSFColor.Automatic.Index;
+			Result.FillPattern = FillPattern.NoFill;
+
+			var UniversalFont = workbook.CreateFont();
+			UniversalFont.Color = 21;
+			Result.SetFont(UniversalFont);
+			//Result.DataFormat = HSSFDataFormat.GetBuiltinFormat("0.00");
+
+			return Result;
+		}
+
+		private static ICellStyle CreateValidationStyle(IWorkbook workbook) {
+			var Result = workbook.CreateCellStyle();
+
+			Result.FillForegroundColor = HSSFColor.Automatic.Index;
+			Result.FillPattern = FillPattern.NoFill;
+			Result.VerticalAlignment = VerticalAlignment.Top;
+
+			var UniversalFont = workbook.CreateFont();
+
+			UniversalFont.Color = IndexedColors.DarkRed.Index;
+			Result.SetFont(UniversalFont);
+
+			return Result;
+		}
+
 
 	}
 }

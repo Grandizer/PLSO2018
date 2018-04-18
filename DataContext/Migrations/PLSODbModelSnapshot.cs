@@ -420,6 +420,8 @@ namespace DataContext.Migrations
 
                     b.Property<int>("ColumnIndex");
 
+                    b.Property<int>("ColumnWidth");
+
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -436,6 +438,8 @@ namespace DataContext.Migrations
                         .IsUnicode(false);
 
                     b.Property<bool>("IsCalculated");
+
+                    b.Property<bool>("IsRequired");
 
                     b.Property<int>("ModifiedByID");
 
