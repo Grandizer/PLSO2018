@@ -11,7 +11,7 @@ using System;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(PLSODb))]
-    [Migration("20180418120729_InitialMigration")]
+    [Migration("20180418200105_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -606,6 +606,8 @@ namespace DataContext.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Address");
+
                     b.Property<string>("AutomatedFileNumber")
                         .HasMaxLength(50)
                         .IsUnicode(false);
@@ -635,6 +637,7 @@ namespace DataContext.Migrations
                         .IsUnicode(false);
 
                     b.Property<string>("ImageFileName")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false);
 
@@ -643,7 +646,6 @@ namespace DataContext.Migrations
                     b.Property<int>("ModifiedByID");
 
                     b.Property<string>("OriginalLot")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
@@ -651,24 +653,17 @@ namespace DataContext.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false);
 
-                    b.Property<string>("RecordingInfo")
-                        .HasMaxLength(50)
+                    b.Property<string>("Range")
+                        .HasMaxLength(20)
                         .IsUnicode(false);
 
                     b.Property<string>("Section")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<string>("StreetName")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("StreetNumber")
-                        .HasMaxLength(15)
-                        .IsUnicode(false);
-
-                    b.Property<string>("StreetSuffix")
-                        .HasMaxLength(4)
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(30)
                         .IsUnicode(false);
 
                     b.Property<string>("Subdivision")
@@ -685,8 +680,6 @@ namespace DataContext.Migrations
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
-                    b.Property<int>("SurveyTypeID");
-
                     b.Property<int>("SurveyorID");
 
                     b.Property<string>("Township")
@@ -701,8 +694,6 @@ namespace DataContext.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("LocationID");
-
-                    b.HasIndex("SurveyTypeID");
 
                     b.HasIndex("SurveyorID");
 
@@ -918,11 +909,6 @@ namespace DataContext.Migrations
                     b.HasOne("PLSO2018.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PLSO2018.Entities.SurveyType", "SurveyType")
-                        .WithMany()
-                        .HasForeignKey("SurveyTypeID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PLSO2018.Entities.ApplicationUser", "Surveyor")
