@@ -605,7 +605,10 @@ namespace DataContext.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false);
 
                     b.Property<string>("AutomatedFileNumber")
                         .HasMaxLength(50)
@@ -625,7 +628,9 @@ namespace DataContext.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<string>("CrossStreet");
+                    b.Property<string>("CrossStreet")
+                        .HasMaxLength(255)
+                        .IsUnicode(false);
 
                     b.Property<int?>("DeedPage");
 

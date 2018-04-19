@@ -12,6 +12,10 @@ namespace DataContext.Repositories {
 
 	public class ExcelTemplateRepo : BaseRepo {
 
+		// TODO: Column E (Record.Township) is Required
+		// Then at least one of the following 4 columns are required as well, but not on the object.  Must be business logic.
+		// Record.OriginalLot, Record.Section, Record.Tract or Record.Range
+
 		public ExcelTemplateRepo(PLSODb context, IHttpContextAccessor contextAccessor, ILoggerFactory loggerFactory) : base(context, contextAccessor) {
 			logger = loggerFactory.CreateLogger<ExcelTemplateRepo>();
 		}

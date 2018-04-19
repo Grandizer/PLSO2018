@@ -32,7 +32,14 @@ namespace DataContext.Configurations {
 				.IsRequired()
 				.HasMaxLength(30)
 				.IsUnicode(false);
+			builder.Property(x => x.Address)
+				.IsRequired()
+				.HasMaxLength(255)
+				.IsUnicode(false);
 
+			builder.Property(x => x.CrossStreet)
+				.HasMaxLength(255)
+				.IsUnicode(false);
 			builder.Property(x => x.AutomatedFileNumber)
 				.HasMaxLength(50)
 				.IsUnicode(false);

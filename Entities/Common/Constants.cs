@@ -82,7 +82,8 @@ namespace PLSO2018.Entities.Common {
 		public struct TemporalTables {
 
 			/// <summary>
-			/// Use argument 0 as the Schema and argument 1 as the Real Table Name (not a History named version)
+			/// Use argument 0 as the Schema and argument 1 as the Real Table Name (not a History named version) and 2 is the
+			/// alternate schema name for the history table (like log).
 			/// https://msdn.microsoft.com/en-us/magazine/mt795184.aspx?f=255&MSPPError=-2147217396
 			/// </summary>
 			public const string SqlSystemVersionedDbFormat = @"
@@ -97,7 +98,7 @@ namespace PLSO2018.Entities.Common {
 				ALTER TABLE
 					{0}.{1}
 				SET
-					(SYSTEM_VERSIONING = ON (HISTORY_TABLE = {0}.{1}History))";
+					(SYSTEM_VERSIONING = ON (HISTORY_TABLE = {2}.{1}History))";
 		}
 
 	}
