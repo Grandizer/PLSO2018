@@ -1,11 +1,25 @@
-﻿using PLSO2018.Entities.Support;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PLSO2018.Entities {
 
-	public class Record : TemporalBase {
+	public class StagedRecord : StagedRecordBase {
 
-		// NOTE - If you add/remove fields from there PLEASE Update the StagedRecord as well
+		// Yes, this is the same structre as AuditableBase but I do not now these to get Audited
+
+		[Column(Order = 0)]
+		public int ID { get; set; }
+		[Required]
+		public DateTimeOffset CreationDate { get; set; } // Utc
+		[Required]
+		public int CreatedByID { get; set; }
+
+	}
+
+	public class StagedRecordBase {
+
+		// NOTE - If you add/remove fields from there PLEASE Update the Record as well
 
 		public string AutomatedFileNumber { get; set; }
 		public string State { get; set; } = "Ohio";
@@ -34,5 +48,4 @@ namespace PLSO2018.Entities {
 		public string Range { get; set; }
 
 	}
-
 }

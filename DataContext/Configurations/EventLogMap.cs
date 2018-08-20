@@ -11,7 +11,6 @@ namespace DataContext.Configurations {
 			builder.HasKey(x => x.ID);
 
 			builder.Property(x => x.Message)
-				.HasMaxLength(2000)
 				.IsRequired();
 			builder.Property(x => x.Occurred)
 				.IsRequired();

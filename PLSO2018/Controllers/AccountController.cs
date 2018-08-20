@@ -214,7 +214,20 @@ namespace PLSO2018.Website.Controllers {
 		public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null) {
 			ViewData["ReturnUrl"] = returnUrl;
 			if (ModelState.IsValid) {
-				var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+				var user = new ApplicationUser {
+					UserName = model.Email,
+					Email = model.Email,
+					FirstName = model.FirstName,
+					LastName = model.LastName,
+					Number = 0,
+					IsActive = true,
+					LastActivityDate = DateTime.Now,
+					TwoFactorEnabled = false,
+					PhoneNumberConfirmed = false,
+					EmailConfirmed = false,
+					LockoutEnabled = true,
+					AccessFailedCount = 0,
+				};
 				var result = await _userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded) {
 					_logger.LogInformation("User created a new account with password.");
@@ -223,7 +236,9 @@ namespace PLSO2018.Website.Controllers {
 					var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
 					await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-					await _signInManager.SignInAsync(user, isPersistent: false);
+					// Prevent newly registered users from being automatically signed in
+					// Uncomment the following line to allow.
+					////await _signInManager.SignInAsync(user, isPersistent: false);
 					_logger.LogInformation("User created a new account with password.");
 					return RedirectToLocal(returnUrl);
 				}
@@ -334,6 +349,7 @@ namespace PLSO2018.Website.Controllers {
 		public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model) {
 			if (ModelState.IsValid) {
 				var user = await _userManager.FindByEmailAsync(model.Email);
+
 				if (user == null || !(await _userManager.IsEmailConfirmedAsync(user))) {
 					// Don't reveal that the user does not exist or is not confirmed
 					return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -345,6 +361,7 @@ namespace PLSO2018.Website.Controllers {
 				var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
 				await _emailSender.SendEmailAsync(model.Email, "Reset Password",
 					 $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+
 				return RedirectToAction(nameof(ForgotPasswordConfirmation));
 			}
 

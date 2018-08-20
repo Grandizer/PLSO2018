@@ -17,12 +17,14 @@ using DataContext.Support;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PLSO2018.Entities.Services;
 using DataContext.Repositories;
+using PLSO2018.Controllers;
 
 namespace PLSO2018.Website {
 
 	public class Startup {
 
 		private ILogger logger;
+		private string SendGridKey = "";
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory) {
 			Configuration = configuration;
@@ -56,8 +58,11 @@ namespace PLSO2018.Website {
 			//services.AddScoped(typeof(ACalendarFactory));
 			//services.AddScoped(typeof(BillingRatesRepo));
 			//services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+			services.AddScoped(typeof(ExcelController));
 
-			services.AddIdentity<ApplicationUser, ApplicationRole>()
+			services.AddIdentity<ApplicationUser, ApplicationRole>(config => {
+				config.SignIn.RequireConfirmedEmail = true;
+				})
 				.AddEntityFrameworkStores<PLSODb>()
 				.AddDefaultTokenProviders(); // Necessary for generating tokens for "Forgot Password"
 
@@ -97,8 +102,11 @@ namespace PLSO2018.Website {
 			});
 
 			// Add application services.
-			services.AddTransient<IEmailSender, EmailSender>();
-
+			services.AddSingleton<IEmailSender, EmailSender>();
+			//services.Configure<AuthMessageSenderOptions>(Configuration);
+			//services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("SendGrid"));
+				
+				
 			// Add Repositories here
 			services.AddScoped(typeof(ExcelTemplateRepo));
 
