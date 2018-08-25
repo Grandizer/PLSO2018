@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PLSO2018.Entities.Services;
 using DataContext.Repositories;
 using PLSO2018.Controllers;
+using PLSO2018.Website.Models;
 
 namespace PLSO2018.Website {
 
@@ -43,6 +44,7 @@ namespace PLSO2018.Website {
 		}
 
 		public IConfiguration Configuration { get; }
+		private string apikey;
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
@@ -62,7 +64,7 @@ namespace PLSO2018.Website {
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>(config => {
 				config.SignIn.RequireConfirmedEmail = true;
-				})
+			})
 				.AddEntityFrameworkStores<PLSODb>()
 				.AddDefaultTokenProviders(); // Necessary for generating tokens for "Forgot Password"
 
@@ -87,7 +89,6 @@ namespace PLSO2018.Website {
 				options.User.RequireUniqueEmail = true;
 			});
 
-
 			services.ConfigureApplicationCookie(options => {
 				// Cookie settings
 				options.Cookie.HttpOnly = true;
@@ -105,8 +106,8 @@ namespace PLSO2018.Website {
 			services.AddSingleton<IEmailSender, EmailSender>();
 			//services.Configure<AuthMessageSenderOptions>(Configuration);
 			//services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("SendGrid"));
-				
-				
+			services.Configure<SendGridSettings>(Configuration.GetSection("SendGridSettings"));
+
 			// Add Repositories here
 			services.AddScoped(typeof(ExcelTemplateRepo));
 

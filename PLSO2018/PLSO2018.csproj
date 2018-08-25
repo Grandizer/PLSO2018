@@ -27,6 +27,7 @@
 	  <Watch Remove="Models\ParseResult.cs" />
 	  <Watch Remove="Models\ParsingCell.cs" />
 	  <Watch Remove="Models\ParsingError.cs" />
+	  <Watch Remove="Models\SendGridSettings.cs" />
 	  <Watch Remove="Services\AuthMessageSenderOptions.cs" />
 	  <Watch Remove="Views\Upload\Upload.cshtml" />
 	</ItemGroup>

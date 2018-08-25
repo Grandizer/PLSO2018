@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using PLSO2018.Website.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
@@ -10,13 +10,10 @@ namespace PLSO2018.Website.Services {
 	// For more details see https://go.microsoft.com/fwlink/?LinkID=532713
 	public class EmailSender : IEmailSender {
 
-		public AuthMessageSenderOptions Options { get; }
+		private readonly SendGridSettings EmailSettings;
 
-		public EmailSender(IConfiguration configuration) {
-			Options = new AuthMessageSenderOptions {
-				SendGridKey = configuration.GetSection("SendGrid")["Key"],
-				SendGridUser = configuration.GetSection("SendGrid")["User"],
-			};
+		public EmailSender(IOptions<SendGridSettings> sendGridSettings) {
+			EmailSettings = sendGridSettings.Value;
 		}
 
 		public Task Execute(string apiKey, string subject, string message, string email) {
@@ -38,7 +35,7 @@ namespace PLSO2018.Website.Services {
 		}
 
 		public Task SendEmailAsync(string email, string subject, string message) {
-			return Execute(Options.SendGridKey, subject, message, email);
+			return Execute(EmailSettings.Key, subject, message, email);
 		}
 
 	}

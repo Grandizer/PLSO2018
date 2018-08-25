@@ -505,7 +505,7 @@ namespace PLSO2018.Controllers {
 			return Result;
 		}
 
-		private ParseResult DelimetedDigitsOnly(ParsingCell cell, List<char> delimeters, int maxLength = 0, int minLength = 0, bool truncateSpaces = false) {
+		private ParseResult DelimetedDigitsOnly(ParsingCell cell, List<char> delimiters, int maxLength = 0, int minLength = 0, bool truncateSpaces = false) {
 			// As of now, none of the Delimeted fields are Required
 			var input = CellValue(cell);
 			var Result = new ParseResult();
@@ -517,8 +517,8 @@ namespace PLSO2018.Controllers {
 			else if ((minLength > 0) && (input.Length < minLength) && (input.Length > 0))
 				Result.Errors.Add(AddCellError(cell, $"Input string must be at least {minLength} characters"));
 
-			if (!input.All(c => ((c >= '0') && (c <= '9')) || (delimeters.Contains(c))))
-				Result.Errors.Add(AddCellError(cell, $"Input string contains characters other than digits and any of the desired delimeters"));
+			if (!input.All(c => ((c >= '0') && (c <= '9')) || (delimiters.Contains(c))))
+				Result.Errors.Add(AddCellError(cell, $"Input string contains characters other than digits and any of the desired delimiters"));
 
 			if (Result.InError == false)
 				Result.Result = input;
@@ -549,7 +549,7 @@ namespace PLSO2018.Controllers {
 
 			if ((maxLength > 0) && (input.Length > maxLength))
 				Result.Errors.Add(AddCellError(cell, $"Input string exceeds the maximum length of {maxLength}"));
-			else if ((minLength > 0) && (input.Length < minLength))
+			else if ((minLength > 0) && (input.Length < minLength) && (input.Length > 0))
 				Result.Errors.Add(AddCellError(cell, $"Input string must be at least {minLength} characters"));
 
 			if (Result.InError == false)
