@@ -5,34 +5,41 @@ namespace PLSO2018.Entities {
 
 	public class Record : TemporalBase {
 
-		// NOTE - If you add/remove fields from there PLEASE Update the StagedRecord as well
-
-		public string AutomatedFileNumber { get; set; }
+		// Map Image Name -- City, Village, Township -- County -- Defunct or Historic Township -- 
+		// Lot No. -- Section -- Tract -- Range -- Survey Date -- Surveyor Name -- Surveyor Number -- 
+		// Address -- Cross Street Name -- Parcel Numbers -- Volume -- Page -- AFN/Inst#/Recorder#/Doc# -- 
+		// Subdivision -- Subdivision-Sublot -- Survey Name -- Location -- Client -- Notes
+		public string MapImageName { get; set; }
+		public string CityVillageTownship { get; set; } // New
 		public string State { get; set; } = "Ohio";
-		public string City { get; set; }
-		public string ClientName { get; set; }
 		public string County { get; set; }
-		public string CrossStreet { get; set; }
-		public int? DeedPage { get; set; }
-		public int? DeedVolume { get; set; }
-		public string Description { get; set; }
-		public string ImageFileName { get; set; }
-		public Location Location { get; set; }
-		public int LocationID { get; set; }
-		public string OriginalLot { get; set; }
-		public string ParcelNumber { get; set; }
+		public string DefunctTownship { get; set; } // New
+		public string LotNumbers { get; set; } // New
 		public string Section { get; set; }
-		public string Address { get; set; }
-		public string Subdivision { get; set; }
-		public string Sublot { get; set; }
-		public DateTime SurveyDate { get; set; }
-		public string SurveyName { get; set; }
-		public ApplicationUser Surveyor { get; set; }
-		public int SurveyorID { get; set; }
-		public string Township { get; set; }
 		public string Tract { get; set; }
 		public string Range { get; set; }
+		public DateTime SurveyDate { get; set; }
+		public ApplicationUser Surveyor { get; set; }
+		public string SurveyorNumber { get; set; }
+		public int SurveyorID { get; set; }
+		public string Address { get; set; }
+		public string CrossStreet { get; set; }
+		public string ParcelNumbers { get; set; }
+		public int? DeedPage { get; set; }
+		public int? DeedVolume { get; set; }
+		public string AutomatedFileNumber { get; set; }
+		public string Subdivision { get; set; }
+		public string Sublot { get; set; }
+		public string SurveyName { get; set; }
+		public Location Location { get; set; }
+		public int? LocationID { get; set; }
+		public string ClientName { get; set; }
+		public string Notes { get; set; } // Was Description
+
+		public string ImageFileName { get; set; }
+		public bool Active { get; set; }
+		public int UploadedByID { get; set; }
+		public DateTimeOffset UploadedDate { get; set; }
 
 	}
-
 }

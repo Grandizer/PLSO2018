@@ -213,9 +213,6 @@ namespace DataContext {
 		public DbSet<SurveyorEmail> SurveyorEmails { get; set; }
 		public DbSet<SurveyorPhone> SurveyorPhones { get; set; }
 
-		// Temp schema
-		public DbSet<StagedRecord> StagedRecords { get; set; }
-
 		#endregion Tables
 
 		protected override void OnModelCreating(ModelBuilder builder) {
@@ -249,9 +246,6 @@ namespace DataContext {
 			builder.ApplyConfiguration(new SurveyorAddressMap());
 			builder.ApplyConfiguration(new SurveyorEmailMap());
 			builder.ApplyConfiguration(new SurveyorPhoneMap());
-
-			// Temp schema
-			builder.ApplyConfiguration(new StagedRecordMap());
 
 
 			// Security schema

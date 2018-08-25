@@ -13,6 +13,10 @@ namespace DataContext.Configurations {
 			builder.Property(x => x.Address)
 				.HasMaxLength(255)
 				.IsUnicode(false);
+			builder.Property(x => x.Latitude)
+				.HasColumnType("decimal(11, 8)");
+			builder.Property(x => x.Longitude)
+				.HasColumnType("decimal(11, 8)");
 			builder.Property(x => x.LocationTypeID)
 				.IsRequired();
 		}

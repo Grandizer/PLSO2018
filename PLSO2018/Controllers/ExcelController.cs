@@ -118,15 +118,13 @@ namespace PLSO2018.Controllers {
 		public FileStreamResult ProcessExcelFile(Stream stream) {
 			var size = stream.Length;
 			var Errors = new List<ParsingError>();
-			var Records = new List<StagedRecord>();
+			var Records = new List<Record>();
+			var TotalErrors = 0;
 			IWorkbook wb = WorkbookFactory.Create(stream);
 
 			try {
 				IsError = CreateErrorStyle(wb);
 				ISheet sheet = wb.GetSheetAt(0);
-
-				//long RowIndex = 1;
-				//long ColumnIndex = 1; // A - X == 24
 
 				// Loop through each Row
 				// Loop through each Column in the current row
@@ -136,160 +134,167 @@ namespace PLSO2018.Controllers {
 				// Row is zero based, skip row 0 (title row), 1 = Example, 2 = Validation
 				for (var r = 3; r <= sheet.LastRowNum; r++) {
 					IRow row = sheet.GetRow(r);
-					var staged = new StagedRecord {
-						CreatedByID = UserID,
-						CreationDate = UseDate,
+					var staged = new Record {
+						UploadedByID = UserID,
+						UploadedDate = UseDate,
+						Active = false,
 					};
 					var RowErrors = new List<ParsingError>();
 
-					for (var c = 0; c <= 23; c++) {
+					for (var c = 2; c <= 24; c++) { // c = 2 (Column C to start), 24 (Column Y to end)
 						// # - Req - Title          - Validation
 						// -----------------------------------------------
-						// A - No  - Comments       - None
-						// B - Yes - Map Image Name - 5 digits only
-						// C - Yes - City, Village  - None (max 50)
-						// D - Yes - County         - Minimum length = 5 (max 50)
-						// E - Yes - Defunct Twp    - None (max 50)
-						// F - No  - Lot Number     - Numbers only, seperated by comma's, no spaces
-						// G - No  - Section        - "
-						// H - No  - Tract          - None
-						// I - No  - Range          - None
-						// J - Yes - Survey Date    - MM/DD/YYYY
-						// K - Yes - Surveyor Name  - None
-						// L - No  - Surveyor No.   - Digits only
-						// M - Yes - Address        - Full address
-						// N - No  - Cross Street   - None
-						// O - No  - Parcel Numbers - ###-##-###,###-##-###...
-						// P - No  - Volume         - Digits only
-						// Q - No  - Page           - "
-						// R - No  - AFN...         - None
-						// S - No  - Subdivision    - None
-						// T - No  - Subd. Lot      - Digits only, seperated by commas
-						// U - No  - Survey Name    - None
-						// V - No  - Location       - Latitude on Longitude seperated by commas
-						// W - No  - Client         - None
-						// X - No  - Notes          - None
+						// A - No  - Parsing Errors - None
+						// B - No  - Comments       - None
+						// C - Yes - Map Image Name - 5 digits only
+						// D - Yes - City, Village  - None (max 50)
+						// E - Yes - County         - Minimum length = 5 (max 50)
+						// F - Yes - Defunct Twp    - None (max 50)
+						// G - No  - Lot Number     - Numbers only, seperated by comma's, no spaces
+						// H - No  - Section        - "
+						// I - No  - Tract          - None
+						// J - No  - Range          - None
+						// K - Yes - Survey Date    - MM/DD/YYYY
+						// L - Yes - Surveyor Name  - None
+						// M - No  - Surveyor No.   - Digits only
+						// N - Yes - Address        - Full address
+						// O - No  - Cross Street   - None
+						// P - No  - Parcel Numbers - ###-##-###,###-##-###...
+						// Q - No  - Volume         - Digits only
+						// R - No  - Page           - "
+						// S - No  - AFN...         - None
+						// T - No  - Subdivision    - None
+						// U - No  - Subd. Lot      - Digits only, seperated by commas
+						// V - No  - Survey Name    - None
+						// W - No  - Location       - Latitude on Longitude seperated by commas
+						// X - No  - Client         - None
+						// Y - No  - Notes          - None
 
 						var pCell = new ParsingCell(row.GetCell(c), r, c);
 
-						if (c == 1) {
-							// Column B: Map Image Name
-							var Check = RequiredDigitsOnly(pCell, 5);
+						if (c == 2) {
+							// Column C: Map Image Name
+							var Check = RequiredString(pCell, 25, 5);
 
 							if (Check.InError) {
 								RowErrors.AddRange(Check.Errors);
 							} else {
 								staged.ImageFileName = Check.Result;
 							}
-						} else if (c == 2) {
-							// Column C: City, Village, Township
-							var Check = RequiredString(pCell, 50, 5);
+						} else if (c == 3) {
+							// Column D: City, Village, Township
+							var Check = RequiredString(pCell, 30, 5);
 
 							if (Check.InError) {
 								RowErrors.AddRange(Check.Errors);
 							} else {
-								staged.City = Check.Result;
+								staged.CityVillageTownship = Check.Result;
 							}
-						} else if (c == 3) {
-							// Column D: County
-							var Check = RequiredString(pCell, 50, 5);
+						} else if (c == 4) {
+							// Column E: County
+							var Check = RequiredString(pCell, 25, 5);
 
 							if (Check.InError) {
 								RowErrors.AddRange(Check.Errors);
 							} else {
 								staged.County = Check.Result;
 							}
-						} else if (c == 4) {
-							// Column E: Defunct Township
-							var Check = RequiredString(pCell, 50, 5);
-
-							if (Check.InError)
-								RowErrors.AddRange(Check.Errors);
-							else
-								staged.Township = Check.Result; // TODO: Record.cs is not represeting the Excel file
 						} else if (c == 5) {
-							// Column F: Lot Numbers
-							var Check = DelimetedDigitsOnly(pCell, ',', 50, 0, true);
+							// Column F: Defunct Township
+							var Check = RequiredString(pCell, 30, 5);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
-								staged.OriginalLot = Check.Result; // TODO: Record.cs is not represeting the Excel file
+								staged.DefunctTownship = Check.Result.Replace("township", "");
 						} else if (c == 6) {
-							// Column G: Section
-							var Check = DelimetedDigitsOnly(pCell, ',', 50, 0, true);
+							// Column G: Lot Numbers
+							var Check = DelimetedDigitsOnly(pCell, ',', 25, 0, true);
+
+							if (Check.InError)
+								RowErrors.AddRange(Check.Errors);
+							else
+								staged.LotNumbers = Check.Result;
+						} else if (c == 7) {
+							// Column H: Section
+							var Check = DelimetedDigitsOnly(pCell, ',', 25, 0, true);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.Section = Check.Result;
-						} else if (c == 7) {
-							// Column H: Tract
-							var Check = NonRequiredString(pCell, 50);
+						} else if (c == 8) {
+							// Column I: Tract
+							var Check = NonRequiredString(pCell, 25);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.Tract = Check.Result;
-						} else if (c == 8) {
-							// Column I: Range
-							var Check = NonRequiredString(pCell, 50);
+						} else if (c == 9) {
+							// Column J: Range
+							var Check = NonRequiredString(pCell, 25);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.Range = Check.Result;
-						} else if (c == 9) {
-							// Column J: Survey Date
+						} else if (c ==10) {
+							// Column K: Survey Date
 							var Check = RequiredDate(pCell);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.SurveyDate = DateTime.Parse(Check.Result);
-						} else if (c == 10) {
-							// Column K: Surveyor Name
-							var Check = RequiredString(pCell, 50, 5);
-
-							if (Check.InError)
-								RowErrors.AddRange(Check.Errors);
-							else
-								staged.SurveyName = Check.Result; // TODO: Record.cs is not represeting the Excel file
 						} else if (c == 11) {
-							// Column L: Surveyor Number
-							var Check = NonRequiredDigitsOnly(pCell, 15, 2);
+							// Column L: Surveyor Name
+							var Check = RequiredString(pCell, 25, 5);
 
+							// TODO: This Name needs to be transmuted to an actual ApplicationUser ID
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
-							else
-								staged.ParcelNumber = Check.Result; // TODO: Record.cs is not represeting the Excel file
+							else {
+								var Surv = new ApplicationUser {
+									FirstName = ""
+								};
+								staged.Surveyor = Surv;
+							}
 						} else if (c == 12) {
-							// Column M: Address
-							var Check = RequiredString(pCell, 50, 5);
+							// Column M: Surveyor Number
+							var Check = NonRequiredDigitsOnly(pCell, 5, 2);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
-								staged.Address = Check.Result;
+								staged.SurveyorNumber = Check.Result;
 						} else if (c == 13) {
-							// Column N: Cross Street Name
-							var Check = NonRequiredString(pCell, 50);
+							// Column N: Address
+							var Check = RequiredString(pCell, 100, 5);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.Address = Check.Result;
 						} else if (c == 14) {
-							// Column O: Parcel Numbers
+							// Column O: Cross Street Name
+							var Check = NonRequiredString(pCell, 30);
+
+							if (Check.InError)
+								RowErrors.AddRange(Check.Errors);
+							else
+								staged.CrossStreet = Check.Result;
+						} else if (c == 15) {
+							// Column P: Parcel Numbers
 							var Check = DelimetedDigitsOnly(pCell, new List<char> { ',', '-' }, 50);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
-								staged.ParcelNumber = Check.Result;
-						} else if (c == 15) {
-							// Column P: Volume
-							var Check = NonRequiredDigitsOnly(pCell, 50, 2);
+								staged.ParcelNumbers = Check.Result;
+						} else if (c == 16) {
+							// Column Q: Volume
+							var Check = NonRequiredDigitsOnly(pCell, 8, 1);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
@@ -298,74 +303,75 @@ namespace PLSO2018.Controllers {
 									staged.DeedVolume = value; // TODO: This needs to be a TryParse so we can handle overflows to long
 							}
 							// TODO: Idealy, the method (in this case) NonRequiredDigitsOnly will return a Null or push an Error
-						} else if (c == 16) {
-							// Column Q: Page
-							var Check = NonRequiredDigitsOnly(pCell, 50, 2);
+						} else if (c == 17) {
+							// Column R: Page
+							var Check = NonRequiredDigitsOnly(pCell, 6, 1);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else if (int.TryParse(Check.Result, out int value))
 								staged.DeedPage = value; // TODO: This needs to be a TryParse so we can handle overflows to long
-						} else if (c == 17) {
-							// Column R: AFN
-							var Check = NonRequiredString(pCell, 50, 3);
+						} else if (c == 18) {
+							// Column S: AFN
+							var Check = NonRequiredString(pCell, 18, 3);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.AutomatedFileNumber = Check.Result;
-						} else if (c == 18) {
-							// Column S: Subdivision
+						} else if (c == 19) {
+							// Column T: Subdivision
 							var Check = NonRequiredString(pCell, 50, 5);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.Subdivision = Check.Result;
-						} else if (c == 19) {
-							// Column T: Subdivision-Sublot
-							var Check = DelimetedDigitsOnly(pCell, ',', 50, 0, true);
+						} else if (c == 20) {
+							// Column U: Subdivision-Sublot
+							var Check = DelimetedDigitsOnly(pCell, ',', 10, 0, true);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
-								staged.Sublot = Check.Result; // TODO: Record.cs is not represeting the Excel file
-						} else if (c == 20) {
-							// Column U: Survey Name
+								staged.Sublot = Check.Result;
+						} else if (c == 21) {
+							// Column V: Survey Name
 							var Check = NonRequiredString(pCell, 50);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.SurveyName = Check.Result;
-						} else if (c == 21) {
-							// Column V: Location
-							var Check = DelimetedDigitsOnly(pCell, new List<char> { ',', '.' }, 50);
+						} else if (c == 22) {
+							// Column W: Location
+							var Check = DelimetedDigitsOnly(pCell, new List<char> { ',', '.', '-' }, 30);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
-							else {
-								var Loc = new Location();
-								// TODO: Ensure that there are 2 and only 2 decimals
-								Loc.Latitude = Convert.ToDecimal(Check.Result.Split(',')[0]);
-								Loc.Longitude = Convert.ToDecimal(Check.Result.Split(',')[1]);
+							else if (!string.IsNullOrWhiteSpace(Check.Result)) {
+								var Loc = new Location {
+									Latitude = Convert.ToDecimal(Check.Result.Split(',')[0]),
+									Longitude = Convert.ToDecimal(Check.Result.Split(',')[1])
+								};
+								staged.Location = Loc;
 							}
-						} else if (c == 22) {
-							// Column W: Client
+						} else if (c == 23) {
+							// Column X: Client
 							var Check = NonRequiredString(pCell, 50);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.ClientName = Check.Result;
-						} else if (c == 23) {
-							// Column X: Notes
-							var Check = NonRequiredString(pCell, 50);
+						} else if (c == 24) {
+							// Column Y: Notes
+							var Check = NonRequiredString(pCell, 2000);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
-								staged.ClientName = Check.Result; // notes
+								staged.Notes = Check.Result; // notes
 						}
 					} // foreach of the Columns
 
@@ -384,10 +390,18 @@ namespace PLSO2018.Controllers {
 					}
 
 					Errors.AddRange(RowErrors);
+
+					if (RowErrors.Count > 0)
+						TotalErrors += RowErrors.Count;
 				} // foreach of the Rows
 			} catch (Exception e) {
 				Console.WriteLine($"Exceiption: {e.Message} - {e.StackTrace}");
 			}
+
+			if (TotalErrors > 0)
+				Console.WriteLine($"There were a total of {TotalErrors} errors.");
+			else
+				Console.WriteLine($"Saving {Records.Count} Records to the database.");
 
 			var TheStream = new NPOIMemoryStream {
 				AllowClose = false
@@ -516,8 +530,8 @@ namespace PLSO2018.Controllers {
 				Result.Errors.Add(AddCellError(cell, $"Input string exceeds the maximum length of {maxLength}"));
 			else if ((minLength > 0) && (input.Length < minLength) && (input.Length > 0))
 				Result.Errors.Add(AddCellError(cell, $"Input string must be at least {minLength} characters"));
-
-			if (!input.All(c => ((c >= '0') && (c <= '9')) || (delimiters.Contains(c))))
+			                   
+			if (!input.All(c => (((c >= '0') && (c <= '9')) || (delimiters.Contains(c)))))
 				Result.Errors.Add(AddCellError(cell, $"Input string contains characters other than digits and any of the desired delimiters"));
 
 			if (Result.InError == false)

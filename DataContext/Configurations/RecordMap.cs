@@ -10,69 +10,84 @@ namespace DataContext.Configurations {
 			builder.ToTable(nameof(Record), "data");
 			builder.HasKey(x => x.ID);
 
-			builder.Property(x => x.ImageFileName)
-				.HasMaxLength(255)
+			builder.Property(x => x.MapImageName)
+				.HasMaxLength(25)
 				.IsRequired()
 				.IsUnicode(false);
-			builder.Property(x => x.Township)
+			builder.Property(x => x.CityVillageTownship)
 				.IsRequired()
-				.HasMaxLength(50)
-				.IsUnicode(false);
-			builder.Property(x => x.County)
-				.IsRequired()
-				.HasMaxLength(50)
-				.IsUnicode(false);
-			builder.Property(x => x.SurveyDate)
-				.IsRequired();
-			builder.Property(x => x.City)
-				.IsRequired()
-				.HasMaxLength(50)
+				.HasMaxLength(30)
 				.IsUnicode(false);
 			builder.Property(x => x.State)
 				.IsRequired()
 				.HasMaxLength(30)
 				.IsUnicode(false);
-			builder.Property(x => x.Address)
+			builder.Property(x => x.County)
 				.IsRequired()
-				.HasMaxLength(255)
+				.HasMaxLength(25)
 				.IsUnicode(false);
-
-			builder.Property(x => x.CrossStreet)
-				.HasMaxLength(255)
-				.IsUnicode(false);
-			builder.Property(x => x.AutomatedFileNumber)
-				.HasMaxLength(50)
-				.IsUnicode(false);
-			builder.Property(x => x.ClientName)
-				.HasMaxLength(100)
-				.IsUnicode(false);
-			builder.Property(x => x.Description)
-				.HasMaxLength(2000)
-				.IsUnicode(false);
-			builder.Property(x => x.OriginalLot)
-				.HasMaxLength(50)
-				.IsUnicode(false);
-			builder.Property(x => x.ParcelNumber)
-				.HasMaxLength(255)
+			builder.Property(x => x.DefunctTownship)
+				.IsUnicode(false)
+				.HasMaxLength(30)
+				.IsRequired();
+			builder.Property(x => x.LotNumbers)
+				.HasMaxLength(25)
 				.IsUnicode(false);
 			builder.Property(x => x.Section)
+				.HasMaxLength(25)
+				.IsUnicode(false);
+			builder.Property(x => x.Tract)
+				.HasMaxLength(25)
+				.IsUnicode(false);
+			builder.Property(x => x.Range)
+				.HasMaxLength(25)
+				.IsUnicode(false);
+			builder.Property(x => x.SurveyDate)
+				.IsRequired();
+			builder.Property(x => x.SurveyorID)
+				.IsRequired();
+			builder.Property(x => x.SurveyorNumber)
+				.HasMaxLength(5)
+				.IsUnicode(false);
+			builder.Property(x => x.Address)
+				.IsRequired()
+				.HasMaxLength(100)
+				.IsUnicode(false);
+			builder.Property(x => x.CrossStreet)
+				.HasMaxLength(30)
+				.IsUnicode(false);
+			builder.Property(x => x.ParcelNumbers)
 				.HasMaxLength(50)
+				.IsUnicode(false);
+			builder.Property(x => x.AutomatedFileNumber)
+				.HasMaxLength(18)
 				.IsUnicode(false);
 			builder.Property(x => x.Subdivision)
 				.HasMaxLength(50)
 				.IsUnicode(false);
 			builder.Property(x => x.Sublot)
-				.HasMaxLength(50)
+				.HasMaxLength(10)
 				.IsUnicode(false);
 			builder.Property(x => x.SurveyName)
-				.HasMaxLength(100)
-				.IsUnicode(false);
-			builder.Property(x => x.Tract)
 				.HasMaxLength(50)
 				.IsUnicode(false);
-			builder.Property(x => x.Range)
-				.HasMaxLength(20)
+			builder.Property(x => x.ClientName)
+				.HasMaxLength(50)
 				.IsUnicode(false);
+			builder.Property(x => x.Notes)
+				.HasMaxLength(2000)
+				.IsUnicode(false);
+
+			builder.Property(x => x.MapImageName)
+				.HasMaxLength(1000)
+				.IsRequired()
+				.IsUnicode(false);
+			builder.Property(x => x.Active)
+				.IsRequired();
+			builder.Property(x => x.UploadedByID)
+				.IsRequired();
+			builder.Property(x => x.UploadedDate)
+				.IsRequired();
 		}
 
 	}

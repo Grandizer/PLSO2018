@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using PLSO2018.Entities;
-using System;
 
 namespace DataContext.Migrations {
 
@@ -24,8 +24,8 @@ namespace DataContext.Migrations {
 						Name = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
 						ServerPath = table.Column<string>(unicode: false, maxLength: 255, nullable: false),
 						RelativeToRoot = table.Column<string>(unicode: false, maxLength: 255, nullable: false),
-						CreatedByID = table.Column<int>(nullable: false),
 						CreationDate = table.Column<DateTimeOffset>(nullable: false),
+						CreatedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_ImagePath", x => x.ID);
@@ -40,10 +40,10 @@ namespace DataContext.Migrations {
 						EventID = table.Column<int>(nullable: true),
 						SurveyorID = table.Column<int>(nullable: true),
 						LogLevel = table.Column<string>(maxLength: 50, nullable: true),
-						Occurred = table.Column<DateTimeOffset>(nullable: false),
 						Page = table.Column<string>(maxLength: 255, nullable: true),
-						Message = table.Column<string>(maxLength: 2000, nullable: false),
+						Message = table.Column<string>(nullable: false),
 						StackTrace = table.Column<string>(nullable: true),
+						Occurred = table.Column<DateTimeOffset>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_EventLog", x => x.ID);
@@ -69,11 +69,11 @@ namespace DataContext.Migrations {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
 						IsActive = table.Column<bool>(nullable: false),
-						Name = table.Column<string>(type: "varchar(50)", nullable: false),
 						EnumName = table.Column<string>(type: "varchar(30)", nullable: false),
+						Name = table.Column<string>(type: "varchar(50)", nullable: false),
 						Description = table.Column<string>(type: "varchar(250)", nullable: true),
-						CreatedByID = table.Column<long>(nullable: false),
 						CreationDate = table.Column<DateTimeOffset>(nullable: false),
+						CreatedByID = table.Column<long>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_AuditAction", x => x.ID);
@@ -99,13 +99,14 @@ namespace DataContext.Migrations {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
 						ColumnIndex = table.Column<int>(nullable: false),
-						IsRequired = table.Column<bool>(nullable: false),
 						IsCalculated = table.Column<bool>(nullable: false),
+						IsRequired = table.Column<bool>(nullable: false),
 						ColumnWidth = table.Column<int>(nullable: false),
-						DisplayName = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
+						MaximumLength = table.Column<int>(nullable: false),
 						FieldName = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
-						ExampleData = table.Column<string>(unicode: false, maxLength: 100, nullable: false),
+						DisplayName = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
 						Validation = table.Column<string>(unicode: false, maxLength: 1000, nullable: false),
+						ExampleData = table.Column<string>(unicode: false, maxLength: 100, nullable: false),
 						ModifiedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
@@ -185,25 +186,25 @@ namespace DataContext.Migrations {
 						Id = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
 						IsActive = table.Column<bool>(nullable: false),
+						UserName = table.Column<string>(maxLength: 256, nullable: true),
 						FirstName = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
 						MiddleInitial = table.Column<string>(unicode: false, maxLength: 2, nullable: true),
 						LastName = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
-						UserName = table.Column<string>(maxLength: 256, nullable: true),
 						Number = table.Column<int>(nullable: false),
 						Email = table.Column<string>(maxLength: 256, nullable: true),
+						LastActivityDate = table.Column<DateTimeOffset>(nullable: false),
 						PhoneNumber = table.Column<string>(nullable: true),
 						Suffix = table.Column<string>(unicode: false, maxLength: 20, nullable: true),
 						SuffixShort = table.Column<string>(unicode: false, maxLength: 3, nullable: true),
-						LastActivityDate = table.Column<DateTimeOffset>(nullable: false),
-						LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-						AccessFailedCount = table.Column<int>(nullable: false),
-						LockoutEnabled = table.Column<bool>(nullable: false),
-						NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-						NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-						PasswordHash = table.Column<string>(nullable: true),
-						EmailConfirmed = table.Column<bool>(nullable: false),
-						PhoneNumberConfirmed = table.Column<bool>(nullable: false),
 						TwoFactorEnabled = table.Column<bool>(nullable: false),
+						LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+						LockoutEnabled = table.Column<bool>(nullable: false),
+						AccessFailedCount = table.Column<int>(nullable: false),
+						PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+						EmailConfirmed = table.Column<bool>(nullable: false),
+						PasswordHash = table.Column<string>(nullable: true),
+						NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+						NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
 						SecurityStamp = table.Column<string>(nullable: true),
 						ConcurrencyStamp = table.Column<string>(nullable: true),
 					},
@@ -221,8 +222,8 @@ namespace DataContext.Migrations {
 						EntityID = table.Column<long>(nullable: false),
 						EntityName = table.Column<string>(unicode: false, maxLength: 150, nullable: false),
 						Data = table.Column<string>(unicode: false, nullable: true),
-						CreatedByID = table.Column<long>(nullable: false),
 						CreationDate = table.Column<DateTimeOffset>(nullable: false),
+						CreatedByID = table.Column<long>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_Audit", x => x.ID);
@@ -242,11 +243,11 @@ namespace DataContext.Migrations {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
 						LocationTypeID = table.Column<int>(nullable: false),
+						Latitude = table.Column<decimal>(type: "decimal(11, 8)", nullable: false),
+						Longitude = table.Column<decimal>(type: "decimal(11, 8)", nullable: false),
 						Address = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-						Latitude = table.Column<decimal>(nullable: false),
-						Longitude = table.Column<decimal>(nullable: false),
-						CreatedByID = table.Column<int>(nullable: false),
 						CreationDate = table.Column<DateTimeOffset>(nullable: false),
+						CreatedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_Location", x => x.ID);
@@ -286,8 +287,8 @@ namespace DataContext.Migrations {
 					columns: table => new {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-						ApplicationUserId = table.Column<int>(nullable: true),
 						AddressTypeID = table.Column<int>(nullable: false),
+						ApplicationUserId = table.Column<int>(nullable: true),
 						IsPrimary = table.Column<bool>(nullable: false),
 						CompanyName = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
 						Address1 = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
@@ -295,8 +296,8 @@ namespace DataContext.Migrations {
 						City = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
 						State = table.Column<string>(unicode: false, maxLength: 2, nullable: false),
 						Zip = table.Column<string>(unicode: false, maxLength: 10, nullable: false),
-						CreatedByID = table.Column<int>(nullable: false),
 						CreationDate = table.Column<DateTimeOffset>(nullable: false),
+						CreatedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_Address", x => x.ID);
@@ -322,12 +323,12 @@ namespace DataContext.Migrations {
 					columns: table => new {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-						ApplicationUserId = table.Column<int>(nullable: true),
 						EmailTypeID = table.Column<int>(nullable: false),
+						ApplicationUserId = table.Column<int>(nullable: true),
 						IsPrimary = table.Column<bool>(nullable: false),
 						Address = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-						CreatedByID = table.Column<int>(nullable: false),
 						CreationDate = table.Column<DateTimeOffset>(nullable: false),
+						CreatedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_Email", x => x.ID);
@@ -353,13 +354,13 @@ namespace DataContext.Migrations {
 					columns: table => new {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-						ApplicationUserId = table.Column<int>(nullable: true),
 						PhoneTypeID = table.Column<int>(nullable: false),
+						ApplicationUserId = table.Column<int>(nullable: true),
 						IsPrimary = table.Column<bool>(nullable: false),
 						Number = table.Column<string>(unicode: false, maxLength: 10, nullable: false),
 						Extension = table.Column<string>(unicode: false, maxLength: 6, nullable: true),
-						CreatedByID = table.Column<int>(nullable: false),
 						CreationDate = table.Column<DateTimeOffset>(nullable: false),
+						CreatedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_Phone", x => x.ID);
@@ -386,13 +387,13 @@ namespace DataContext.Migrations {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
 						SurveyorID = table.Column<int>(nullable: false),
-						LoggedOffTypeID = table.Column<int>(nullable: false),
 						LoggedOffByID = table.Column<int>(nullable: false),
+						LoggedOffTypeID = table.Column<int>(nullable: false),
 						LoggedIn = table.Column<DateTimeOffset>(nullable: false),
 						LoggedOff = table.Column<DateTimeOffset>(nullable: false),
+						RemoteAddress = table.Column<string>(unicode: false, maxLength: 25, nullable: true),
 						LocalAddress = table.Column<string>(unicode: false, maxLength: 25, nullable: true),
 						HttpUserAgent = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-						RemoteAddress = table.Column<string>(unicode: false, maxLength: 25, nullable: true),
 					},
 					constraints: table => {
 						table.PrimaryKey("PK_UserLogon", x => x.ID);
@@ -498,28 +499,33 @@ namespace DataContext.Migrations {
 						ID = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
 						SurveyorID = table.Column<int>(nullable: false),
-						LocationID = table.Column<int>(nullable: false),
-						ImageFileName = table.Column<string>(unicode: false, maxLength: 255, nullable: false),
-						City = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-						County = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
+						LocationID = table.Column<int>(nullable: true),
+						UploadedByID = table.Column<int>(nullable: false),
+						Active = table.Column<bool>(nullable: false),
+						UploadedDate = table.Column<DateTimeOffset>(nullable: false),
+						MapImageName = table.Column<string>(unicode: false, maxLength: 1000, nullable: false),
+						ImageFileName = table.Column<string>(nullable: true),
+						CityVillageTownship = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
 						State = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
-						Township = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-						OriginalLot = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						Section = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						Tract = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						Range = table.Column<string>(unicode: false, maxLength: 20, nullable: true),
+						County = table.Column<string>(unicode: false, maxLength: 25, nullable: false),
+						DefunctTownship = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
+						LotNumbers = table.Column<string>(unicode: false, maxLength: 25, nullable: true),
+						Section = table.Column<string>(unicode: false, maxLength: 25, nullable: true),
+						Tract = table.Column<string>(unicode: false, maxLength: 25, nullable: true),
+						Range = table.Column<string>(unicode: false, maxLength: 25, nullable: true),
 						SurveyDate = table.Column<DateTime>(nullable: false),
-						Address = table.Column<string>(unicode: false, maxLength: 255, nullable: false),
-						CrossStreet = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-						ParcelNumber = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-						DeedVolume = table.Column<int>(nullable: true),
+						SurveyorNumber = table.Column<string>(unicode: false, maxLength: 5, nullable: true),
+						Address = table.Column<string>(unicode: false, maxLength: 100, nullable: false),
+						CrossStreet = table.Column<string>(unicode: false, maxLength: 30, nullable: true),
+						ParcelNumbers = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
 						DeedPage = table.Column<int>(nullable: true),
-						AutomatedFileNumber = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						DeedVolume = table.Column<int>(nullable: true),
+						AutomatedFileNumber = table.Column<string>(unicode: false, maxLength: 18, nullable: true),
 						Subdivision = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						Sublot = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-						SurveyName = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-						ClientName = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-						Description = table.Column<string>(unicode: false, maxLength: 2000, nullable: true),
+						Sublot = table.Column<string>(unicode: false, maxLength: 10, nullable: true),
+						SurveyName = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						ClientName = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
+						Notes = table.Column<string>(unicode: false, maxLength: 2000, nullable: true),
 						ModifiedByID = table.Column<int>(nullable: false),
 					},
 					constraints: table => {
@@ -530,7 +536,7 @@ namespace DataContext.Migrations {
 											principalSchema: "data",
 											principalTable: "Location",
 											principalColumn: "ID",
-											onDelete: ReferentialAction.Cascade);
+											onDelete: ReferentialAction.Restrict);
 						table.ForeignKey(
 											name: "FK_Record_AspNetUser_SurveyorID",
 											column: x => x.SurveyorID,
@@ -769,6 +775,7 @@ namespace DataContext.Migrations {
 					table: "SurveyorPhone",
 					column: "SurveyorID");
 
+
 			// Seed some of the data
 			DateTime Now = DateTime.Now;
 
@@ -817,30 +824,31 @@ namespace DataContext.Migrations {
 			migrationBuilder.InsertData(schema: "ref", table: nameof(SurveyType), columns: new[] { "ID", "Name", "Description" }, values: new object[] { 5, "MLS", null });
 
 			// Excel Template Fields
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 1, 1, 25, true, false, "Comments", "*** Comments", "Anything", "Any row with contents in this field will be ignored", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 2, 2, 25, false, true, "Map Image Name", nameof(Record.ImageFileName), "KRAUSE00099", "No spaces, hyphens. 5 digit numerical counter. MUST BE EXACT", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 3, 3, 30, false, true, "City, Village, Township", nameof(Record.City), "Bay Village", "Spaces are OK", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 4, 4, 25, false, true, "County", nameof(Record.County), "Cuyahoga", "Full county name because first 3 letters are duplicated", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 5, 5, 30, false, true, "Defunct or Historic Township", nameof(Record.Township), "Dover", "Full name. No need to include the word township", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 6, 6, 25, false, false, "Lot No.", nameof(Record.OriginalLot), "10,11,12", "Only Numbers with multiples seperated by commas, no spaces", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 7, 7, 25, false, false, "Section", nameof(Record.Section), "10,11,12", "Only Numbers with multiples seperated by commas, no spaces", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 8, 8, 25, false, false, "Tract", nameof(Record.Tract), "10,11,12,Blake,Ely", "", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 9, 9, 25, false, false, "Range", nameof(Record.Range), "2N", "Enter if known", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 10, 10, 20, true, true, "Survey Date", nameof(Record.SurveyDate), "10/1/2018", "In the format of MM/DD/YYYY.  If the Day is not know, put a 1", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 11, 11, 25, true, true, "Surveyor Name", "*** Surveyor Name", "Frank B Krause Jr", "Full name because there are repeated names like Krause", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 12, 12, 25, true, false, "Surveyor Number", "*** Surveyor Number", "567", "Only Numbers", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 13, 13, 20, false, true, "Address", nameof(Record.Address), "12345A Southwest New Philly", "This should contain the full street address", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 14, 14, 25, false, false, "Cross Street Name", nameof(Record.CrossStreet), "NW MAIN ST", "In case of fronting more than one street or corner lots, place second street name here. Entire name can be in this field. If there are more streets like a subdivision plat, those can be listed under the Notes fields.", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 15, 15, 25, false, false, "Parcel Numbers", nameof(Record.ParcelNumber), "123-45-678,123-45-679", "Numbers and letters depending on county. Separate multiple parcel numbers with commas. Enter entire parcel number, not just ending suffix, no spaces", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 16, 16, 20, false, false, "Volume", nameof(Record.DeedVolume), "123", "Numbers Only", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 17, 17, 20, false, false, "Page", nameof(Record.DeedPage), "45", "Numbers Only", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 18, 18, 20, false, false, "AFN/Inst#/Recorder#/Doc#", nameof(Record.AutomatedFileNumber), "20111965485", "Enter the full Recorder/Auditor unique identifier", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 19, 19, 25, false, false, "Subdivision", nameof(Record.Subdivision), "Barrington", "Full subdivision name", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 20, 20, 20, false, false, "Subdivision-Sublot", nameof(Record.Sublot), "10,11,12", "Numbers only. Multiples separated by commas. No spaces", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 21, 21, 25, false, false, "Survey Name", nameof(Record.SurveyName), "Lot split for Lustri", "This should be the title as it appears on the map, we shouldn't interpret mistakes here. Include lables like Boundary, Topo, ALTA, MLS, etc.", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 22, 22, 25, true, false, "Location", nameof(Record.Location), "41.498924,-81.689951", "If known, enter the Latitude and Longitude separated by commas", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 23, 23, 25, false, false, "Client", nameof(Record.ClientName), "Dino A F Lustri", "Full Client name as it appears on the Survey Map. No periods. Include middle initials when applicable", 0 });
-			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 24, 24, 25, false, false, "Notes", nameof(Record.Description), "Just behind the McDonald's", "Place any other info here that would aid in searching", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 1, 1, 0, 25, true, false, "Internal Use Only", "*** Parsing Messages", "Do Not Use", "This is the field where parsing messages will go when this file is uploaded.", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 2, 2, 0, 25, true, false, "Comments", "*** Comments", "Anything", "Any row with contents in this field will be IGNORED", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 3, 3, 15, 25, false, true, "Map Image Name", nameof(Record.ImageFileName), "KRAUSE00099", "No spaces, hyphens. 5 digit numerical counter. MUST BE EXACT", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 4, 4, 25, 30, false, true, "City, Village, Township", nameof(Record.CityVillageTownship), "Bay Village", "Spaces are OK", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 5, 5, 15, 25, false, true, "County", nameof(Record.County), "Cuyahoga", "Full county name because first 3 letters are duplicated", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 6, 6, 15, 30, false, true, "Defunct or Historic Township", nameof(Record.DefunctTownship), "Dover", "Full name. No need to include the word township", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 7, 7, 8, 25, false, false, "Lot No.", nameof(Record.LotNumbers), "10,11,12", "Only Numbers with multiples seperated by commas, no spaces", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 8, 8, 8, 25, false, false, "Section", nameof(Record.Section), "10,11,12", "Only Numbers with multiples seperated by commas, no spaces", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 9, 9, 8, 25, false, false, "Tract", nameof(Record.Tract), "10,11,12,Blake,Ely", "", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 10, 10, 8, 25, false, false, "Range", nameof(Record.Range), "2N", "Enter if known", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 11, 11, 10, 20, true, true, "Survey Date", nameof(Record.SurveyDate), "10/1/2018", "In the format of MM/DD/YYYY.  If the Day is not know, put a 1", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 12, 12, 25, 25, true, true, "Surveyor Name", "*** Surveyor Name", "Frank B Krause Jr", "Full name because there are repeated names like Krause", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 13, 13, 5, 25, true, false, "Surveyor Number", "*** Surveyor Number", "567", "Only Numbers", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 14, 14, 100, 20, false, true, "Address", nameof(Record.Address), "12345A Southwest New Philly", "This should contain the full street address", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 15, 15, 30, 25, false, false, "Cross Street Name", nameof(Record.CrossStreet), "NW MAIN ST", "In case of fronting more than one street or corner lots, place second street name here. Entire name can be in this field. If there are more streets like a subdivision plat, those can be listed under the Notes fields.", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 16, 16, 50, 25, false, false, "Parcel Numbers", nameof(Record.ParcelNumbers), "123-45-678,123-45-679", "Numbers and letters depending on county. Separate multiple parcel numbers with commas. Enter entire parcel number, not just ending suffix, no spaces", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 17, 17, 8, 20, false, false, "Volume", nameof(Record.DeedVolume), "123", "Numbers Only", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 18, 18, 15, 20, false, false, "Page", nameof(Record.DeedPage), "45", "Numbers Only", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 19, 19, 18, 20, false, false, "AFN/Inst#/Recorder#/Doc#", nameof(Record.AutomatedFileNumber), "20111965485", "Enter the full Recorder/Auditor unique identifier", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 20, 20, 50, 25, false, false, "Subdivision", nameof(Record.Subdivision), "Barrington", "Full subdivision name", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 21, 21, 10, 20, false, false, "Subdivision-Sublot", nameof(Record.Sublot), "10,11,12", "Numbers only. Multiples separated by commas. No spaces", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 22, 22, 50, 25, false, false, "Survey Name", nameof(Record.SurveyName), "Lot split for Lustri", "This should be the title as it appears on the map, we shouldn't interpret mistakes here. Include lables like Boundary, Topo, ALTA, MLS, etc.", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 23, 23, 30, 25, true, false, "Location", nameof(Record.Location), "41.498924,-81.689951", "If known, enter the Latitude and Longitude separated by commas", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 24, 24, 50, 25, false, false, "Client", nameof(Record.ClientName), "Dino A F Lustri", "Full Client name as it appears on the Survey Map. No periods. Include middle initials when applicable", 0 });
+			migrationBuilder.InsertData(schema: "ref", table: nameof(ExcelTemplate), columns: new[] { "ID", "ColumnIndex", "MaximumLength", "ColumnWidth", "IsCalculated", "IsRequired", "DisplayName", "FieldName", "ExampleData", "Validation", "ModifiedByID" }, values: new object[] { 25, 25, 1000, 25, false, false, "Notes", nameof(Record.Notes), "Just behind the McDonald's", "Place any other info here that would aid in searching", 0 });
 
 			/*
 
@@ -889,7 +897,15 @@ namespace DataContext.Migrations {
 					schema: "ref");
 
 			migrationBuilder.DropTable(
+					name: "ExcelTemplate",
+					schema: "ref");
+
+			migrationBuilder.DropTable(
 					name: "LogOffType",
+					schema: "ref");
+
+			migrationBuilder.DropTable(
+					name: "SurveyType",
 					schema: "ref");
 
 			migrationBuilder.DropTable(
@@ -927,14 +943,6 @@ namespace DataContext.Migrations {
 			migrationBuilder.DropTable(
 					name: "Location",
 					schema: "data");
-
-			migrationBuilder.DropTable(
-					name: "ExcelTemplate",
-					schema: "ref");
-
-			migrationBuilder.DropTable(
-					name: "SurveyType",
-					schema: "ref");
 
 			migrationBuilder.DropTable(
 					name: "AuditAction",

@@ -106,7 +106,7 @@ namespace PLSO2018.Website {
 			services.AddSingleton<IEmailSender, EmailSender>();
 			//services.Configure<AuthMessageSenderOptions>(Configuration);
 			//services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("SendGrid"));
-			services.Configure<SendGridSettings>(Configuration.GetSection("SendGridSettings"));
+			services.Configure<SendGridSettings>(Configuration.GetSection("SendGridSettings")); // FYI- This only works when NOT using IIS
 
 			// Add Repositories here
 			services.AddScoped(typeof(ExcelTemplateRepo));

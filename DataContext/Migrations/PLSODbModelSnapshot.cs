@@ -451,6 +451,8 @@ namespace DataContext.Migrations
 
                     b.Property<bool>("IsRequired");
 
+                    b.Property<int>("MaximumLength");
+
                     b.Property<int>("ModifiedByID");
 
                     b.Property<string>("Validation")
@@ -509,11 +511,13 @@ namespace DataContext.Migrations
 
                     b.Property<DateTimeOffset>("CreationDate");
 
-                    b.Property<decimal>("Latitude");
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("decimal(11, 8)");
 
                     b.Property<int>("LocationTypeID");
 
-                    b.Property<decimal>("Longitude");
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("decimal(11, 8)");
 
                     b.HasKey("ID");
 
@@ -622,64 +626,73 @@ namespace DataContext.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Active");
+
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(255)
+                        .HasMaxLength(100)
                         .IsUnicode(false);
 
                     b.Property<string>("AutomatedFileNumber")
-                        .HasMaxLength(50)
+                        .HasMaxLength(18)
                         .IsUnicode(false);
 
-                    b.Property<string>("City")
+                    b.Property<string>("CityVillageTownship")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(30)
                         .IsUnicode(false);
 
                     b.Property<string>("ClientName")
-                        .HasMaxLength(100)
+                        .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<string>("County")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(25)
                         .IsUnicode(false);
 
                     b.Property<string>("CrossStreet")
-                        .HasMaxLength(255)
+                        .HasMaxLength(30)
                         .IsUnicode(false);
 
                     b.Property<int?>("DeedPage");
 
                     b.Property<int?>("DeedVolume");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(2000)
-                        .IsUnicode(false);
-
-                    b.Property<string>("ImageFileName")
+                    b.Property<string>("DefunctTownship")
                         .IsRequired()
-                        .HasMaxLength(255)
+                        .HasMaxLength(30)
                         .IsUnicode(false);
 
-                    b.Property<int>("LocationID");
+                    b.Property<string>("ImageFileName");
+
+                    b.Property<int?>("LocationID");
+
+                    b.Property<string>("LotNumbers")
+                        .HasMaxLength(25)
+                        .IsUnicode(false);
+
+                    b.Property<string>("MapImageName")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(false);
 
                     b.Property<int>("ModifiedByID");
 
-                    b.Property<string>("OriginalLot")
-                        .HasMaxLength(50)
+                    b.Property<string>("Notes")
+                        .HasMaxLength(2000)
                         .IsUnicode(false);
 
-                    b.Property<string>("ParcelNumber")
-                        .HasMaxLength(255)
+                    b.Property<string>("ParcelNumbers")
+                        .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<string>("Range")
-                        .HasMaxLength(20)
+                        .HasMaxLength(25)
                         .IsUnicode(false);
 
                     b.Property<string>("Section")
-                        .HasMaxLength(50)
+                        .HasMaxLength(25)
                         .IsUnicode(false);
 
                     b.Property<string>("State")
@@ -692,25 +705,28 @@ namespace DataContext.Migrations
                         .IsUnicode(false);
 
                     b.Property<string>("Sublot")
-                        .HasMaxLength(50)
+                        .HasMaxLength(10)
                         .IsUnicode(false);
 
                     b.Property<DateTime>("SurveyDate");
 
                     b.Property<string>("SurveyName")
-                        .HasMaxLength(100)
+                        .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<int>("SurveyorID");
 
-                    b.Property<string>("Township")
-                        .IsRequired()
-                        .HasMaxLength(50)
+                    b.Property<string>("SurveyorNumber")
+                        .HasMaxLength(5)
                         .IsUnicode(false);
 
                     b.Property<string>("Tract")
-                        .HasMaxLength(50)
+                        .HasMaxLength(25)
                         .IsUnicode(false);
+
+                    b.Property<int>("UploadedByID");
+
+                    b.Property<DateTimeOffset>("UploadedDate");
 
                     b.HasKey("ID");
 
@@ -719,113 +735,6 @@ namespace DataContext.Migrations
                     b.HasIndex("SurveyorID");
 
                     b.ToTable("Record","data");
-                });
-
-            modelBuilder.Entity("PLSO2018.Entities.StagedRecord", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
-
-                    b.Property<string>("AutomatedFileNumber")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("ClientName")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
-
-                    b.Property<string>("County")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<int>("CreatedByID");
-
-                    b.Property<DateTimeOffset>("CreationDate");
-
-                    b.Property<string>("CrossStreet")
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
-
-                    b.Property<int?>("DeedPage");
-
-                    b.Property<int?>("DeedVolume");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(2000)
-                        .IsUnicode(false);
-
-                    b.Property<string>("ImageFileName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
-
-                    b.Property<int>("LocationID");
-
-                    b.Property<string>("OriginalLot")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("ParcelNumber")
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Range")
-                        .HasMaxLength(20)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Section")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Subdivision")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Sublot")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<DateTime>("SurveyDate");
-
-                    b.Property<string>("SurveyName")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
-
-                    b.Property<int>("SurveyorID");
-
-                    b.Property<string>("Township")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Tract")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("LocationID");
-
-                    b.HasIndex("SurveyorID");
-
-                    b.ToTable("StagedRecord","temp");
                 });
 
             modelBuilder.Entity("PLSO2018.Entities.SurveyorAddress", b =>
@@ -1041,21 +950,7 @@ namespace DataContext.Migrations
                 {
                     b.HasOne("PLSO2018.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PLSO2018.Entities.ApplicationUser", "Surveyor")
-                        .WithMany()
-                        .HasForeignKey("SurveyorID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PLSO2018.Entities.StagedRecord", b =>
-                {
-                    b.HasOne("PLSO2018.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LocationID");
 
                     b.HasOne("PLSO2018.Entities.ApplicationUser", "Surveyor")
                         .WithMany()
