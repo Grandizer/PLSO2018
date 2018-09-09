@@ -10,4 +10,11 @@ namespace PLSO2018.Entities.Common {
 		ManualDelete,
 	}
 
+	[SourceTable("LocationType")]
+	public enum LocationTypes {
+		Unknown = 1,
+		LatLong = 2,
+		Address = 3,
+	}
+
 }

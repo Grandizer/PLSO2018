@@ -19,6 +19,7 @@ using PLSO2018.Entities.Services;
 using DataContext.Repositories;
 using PLSO2018.Controllers;
 using PLSO2018.Website.Models;
+using PLSO2018.DataContext.Services;
 
 namespace PLSO2018.Website {
 
@@ -60,6 +61,8 @@ namespace PLSO2018.Website {
 			//services.AddScoped(typeof(ACalendarFactory));
 			//services.AddScoped(typeof(BillingRatesRepo));
 			//services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+			services.AddTransient(typeof(UserResolver));
+			services.AddScoped<IEnumProperties, EnumPropertiesService>();
 			services.AddScoped(typeof(ExcelController));
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>(config => {

@@ -14,6 +14,9 @@ namespace DataContext.Configurations {
 				.HasMaxLength(25)
 				.IsRequired()
 				.IsUnicode(false);
+			builder.Property(x => x.ImagePath)
+				.HasMaxLength(255)
+				.IsUnicode(false);
 			builder.Property(x => x.CityVillageTownship)
 				.IsRequired()
 				.HasMaxLength(30)
@@ -44,8 +47,12 @@ namespace DataContext.Configurations {
 				.IsUnicode(false);
 			builder.Property(x => x.SurveyDate)
 				.IsRequired();
-			builder.Property(x => x.SurveyorID)
-				.IsRequired();
+			//////builder.Property(x => x.SurveyorID)
+			//////	.IsRequired();
+			builder.Property(x => x.SurveyorName)
+				.IsRequired()
+				.HasMaxLength(50)
+				.IsUnicode(false);
 			builder.Property(x => x.SurveyorNumber)
 				.HasMaxLength(5)
 				.IsUnicode(false);

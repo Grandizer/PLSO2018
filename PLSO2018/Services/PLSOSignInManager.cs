@@ -1,5 +1,4 @@
-﻿
-using DataContext;
+﻿using DataContext;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using PLSO2018.Entities.Common;
 
 namespace PLSO2018.Website.Services {
 
@@ -50,11 +50,11 @@ namespace PLSO2018.Website.Services {
 				.SingleOrDefault();
 
 			if (User != null) {
-				//Identity.AddClaim(new Claim(Constants.Claims.User.ID, User.Id.ToString()));
+				Identity.AddClaim(new Claim(Constants.Claims.User.ID, User.Id.ToString()));
 				//Identity.AddClaim(new Claim(Constants.Claims.User.Number, User.Number));
-				//Identity.AddClaim(new Claim(Constants.Claims.User.FirstName, User.FirstName));
-				//Identity.AddClaim(new Claim(Constants.Claims.User.LastName, User.LastName));
-				//Identity.AddClaim(new Claim(Constants.Claims.User.EMail, User.Email));
+				Identity.AddClaim(new Claim(Constants.Claims.User.FirstName, User.FirstName));
+				Identity.AddClaim(new Claim(Constants.Claims.User.LastName, User.LastName));
+				Identity.AddClaim(new Claim(Constants.Claims.User.EMail, User.Email));
 				//Identity.AddClaim(new Claim(Constants.Claims.User.TimeZoneID, User.TimeZoneID.ToString()));
 				//Identity.AddClaim(new Claim(Constants.Claims.User.TimeZoneLookupKey, User.TimeZone.LookupKey));
 				//Identity.AddClaim(new Claim(Constants.Claims.Tenant.ID, User.TenantID.ToString()));
@@ -65,43 +65,7 @@ namespace PLSO2018.Website.Services {
 
 				foreach (var rc in User.Claims) {
 					Identity.AddClaim(rc.ToClaim()); // Add the Claim normally
-
-					//if ((rc.ClaimType == Constants.Claims.Subscriber.IsAdministrator) ||
-					//	(rc.ClaimType == Constants.Claims.Subscriber.IsTimeSheetAdmin) ||
-					//	(rc.ClaimType == Constants.Claims.Subscriber.IsTimeSheetReview)) {
-					//	var mySubscriptionID = User.Tenant.Subscriber.ID;
-					//	var myTenants = _dataContext.Tenants.Where(x => x.SubscriberID == mySubscriptionID).ToList();
-
-					//	foreach (var t in myTenants) {
-					//		if (rc.ClaimType == Constants.Claims.Subscriber.IsAdministrator)
-					//			Identity.AddClaim(new Claim(Constants.Claims.Tenant.AdministratorOf, t.ID.ToString()));
-					//		else if (rc.ClaimType == Constants.Claims.Subscriber.IsTimeSheetAdmin)
-					//			Identity.AddClaim(new Claim(Constants.Claims.Tenant.TimeSheetAdminOf, t.ID.ToString()));
-					//		else if (rc.ClaimType == Constants.Claims.Subscriber.IsTimeSheetReview)
-					//			Identity.AddClaim(new Claim(Constants.Claims.Tenant.TimeSheetReviewOf, t.ID.ToString()));
-					//	} // foreach of the Tenants within the Subscription
-					//} // if I am the Administrator of a Subscription, I should also get the Tenants as well
 				} // foreach of the Claims that have been specifically assinged to me
-
-				// Add Claims for each of the Projects I am a Manager of or a Member of
-				//var PM = _dataContext.ProjectRoles.Where(x => x.Name == Constants.ProjectRoleTypes.ProjectManager).FirstOrDefault();
-
-				//if (PM != null) {
-				//	// Get the Projects where I am the Project Manager
-				//	var MyPMProjects = _dataContext.ProjectProjectRoleUsers.Where(x => x.UserID == User.Id && x.ProjectRoleID == PM.ID).ToList();
-
-				//	foreach (var Project in MyPMProjects)
-				//		Identity.AddClaim(new Claim(Constants.Claims.Project.ManagerOf, Project.ProjectID.ToString()));
-
-				//	if (MyPMProjects.Count > 0)
-				//		Identity.AddClaim(new Claim(Constants.Claims.Project.IsManager, "true"));
-
-				//	// Get the Projects that I am ON but am NOT the Project Manager
-				//	var MyProjects = _dataContext.ProjectProjectRoleUsers.Where(x => x.UserID == User.Id && x.ProjectRoleID != PM.ID).ToList();
-
-				//	foreach (var Project in MyProjects)
-				//		Identity.AddClaim(new Claim(Constants.Claims.Project.MemberOf, Project.ProjectID.ToString()));
-				//} // if we found the Project Manager Role
 			} // if we found the associated User record
 
 			return Principal;

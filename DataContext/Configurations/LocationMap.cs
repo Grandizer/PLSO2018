@@ -11,7 +11,7 @@ namespace DataContext.Configurations {
 			builder.HasKey(x => x.ID);
 
 			builder.Property(x => x.Address)
-				.HasMaxLength(255)
+				.HasMaxLength(100)
 				.IsUnicode(false);
 			builder.Property(x => x.Latitude)
 				.HasColumnType("decimal(11, 8)");

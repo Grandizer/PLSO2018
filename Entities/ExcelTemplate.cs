@@ -11,6 +11,7 @@ namespace PLSO2018.Entities {
 		public string Validation { get; set; }
 		public bool IsCalculated { get; set; }
 		public bool IsRequired { get; set; } = false;
+		public int MinimumLength { get; set; }
 		public int MaximumLength { get; set; }
 
 		/// <summary>

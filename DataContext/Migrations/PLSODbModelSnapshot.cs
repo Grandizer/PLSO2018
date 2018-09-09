@@ -453,6 +453,8 @@ namespace DataContext.Migrations
 
                     b.Property<int>("MaximumLength");
 
+                    b.Property<int>("MinimumLength");
+
                     b.Property<int>("ModifiedByID");
 
                     b.Property<string>("Validation")
@@ -504,7 +506,7 @@ namespace DataContext.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasMaxLength(255)
+                        .HasMaxLength(100)
                         .IsUnicode(false);
 
                     b.Property<int>("CreatedByID");
@@ -664,7 +666,11 @@ namespace DataContext.Migrations
                         .HasMaxLength(30)
                         .IsUnicode(false);
 
-                    b.Property<string>("ImageFileName");
+                    b.Property<int>("HashCode");
+
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(255)
+                        .IsUnicode(false);
 
                     b.Property<int?>("LocationID");
 
@@ -714,7 +720,12 @@ namespace DataContext.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<int>("SurveyorID");
+                    b.Property<int?>("SurveyorID");
+
+                    b.Property<string>("SurveyorName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
 
                     b.Property<string>("SurveyorNumber")
                         .HasMaxLength(5)
@@ -954,8 +965,7 @@ namespace DataContext.Migrations
 
                     b.HasOne("PLSO2018.Entities.ApplicationUser", "Surveyor")
                         .WithMany()
-                        .HasForeignKey("SurveyorID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SurveyorID");
                 });
 
             modelBuilder.Entity("PLSO2018.Entities.SurveyorAddress", b =>

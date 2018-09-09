@@ -19,9 +19,10 @@ namespace PLSO2018.Entities {
 		public string Tract { get; set; }
 		public string Range { get; set; }
 		public DateTime SurveyDate { get; set; }
+		public string SurveyorName { get; set; }
 		public ApplicationUser Surveyor { get; set; }
 		public string SurveyorNumber { get; set; }
-		public int SurveyorID { get; set; }
+		public int? SurveyorID { get; set; }
 		public string Address { get; set; }
 		public string CrossStreet { get; set; }
 		public string ParcelNumbers { get; set; }
@@ -36,10 +37,15 @@ namespace PLSO2018.Entities {
 		public string ClientName { get; set; }
 		public string Notes { get; set; } // Was Description
 
-		public string ImageFileName { get; set; }
+		public string ImagePath { get; set; }
 		public bool Active { get; set; }
 		public int UploadedByID { get; set; }
 		public DateTimeOffset UploadedDate { get; set; }
+		public int HashCode { get; set; }
+
+		public override int GetHashCode() {
+			return $"{MapImageName}{CityVillageTownship}{State}{County}{DefunctTownship}{LotNumbers}{Section}{Tract}{Range}{SurveyDate.ToString()}{SurveyorName}{Address}{CrossStreet}{ParcelNumbers}{AutomatedFileNumber}{Subdivision}{Sublot}{SurveyName}{ClientName}{Notes}{(SurveyorID ?? 0)}{(LocationID ?? 0)}".GetHashCode();
+		}
 
 	}
 }

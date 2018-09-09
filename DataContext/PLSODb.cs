@@ -14,25 +14,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using PLSO2018.Entities.Services;
 
 namespace DataContext {
 
 	public class PLSODb : IdentityDbContext<ApplicationUser, ApplicationRole, int> {
 
 		private readonly ILogger logger;
-		private readonly UserResolver userResolver;
 
-		public PLSODb(DbContextOptions<PLSODb> options) : base(options) {
+		//public PLSODb(DbContextOptions<PLSODb> options) : base(options) {
 
-		}
+		//}
 
 		public PLSODb(DbContextOptions<PLSODb> options, UserResolver userResolver, ILoggerFactory loggerFactory) : base(options) {
 			this.logger = loggerFactory.CreateLogger<PLSODb>();
-			this.userResolver = userResolver;
 		}
 
 		public override int SaveChanges() {
-			return SaveChanges(userResolver.UsersID);
+			throw new Exception("Must use the Savechanges(int userID) overload of this method and pass in the current users ID property.");
 		}
 
 		public int SaveChanges(int userID) {
@@ -49,7 +48,7 @@ namespace DataContext {
 				if (e.Entity is AuditableBase) {
 					List<string> AlteredProperties = new List<string>();
 					updateAudit = new Audit() {
-						AuditActionID = (int)AuditActionTypes.Update, // enumProps.GetDBID(AuditActionTypes.Update),
+						AuditActionID = (int)AuditActionTypes.Update,
 						CreationDate = DateTime.Now,
 						CreatedByID = userID,
 						EntityName = GetEntityName(e),
@@ -74,7 +73,7 @@ namespace DataContext {
 				if (e.Entity is AuditableBase) {
 					var DbValues = e.GetDatabaseValues().ToObject();
 					Audit deleteAudit = new Audit() {
-						AuditActionID = (int)AuditActionTypes.Delete, // enumProps.GetDBID(AuditActionTypes.Delete),
+						AuditActionID = (int)AuditActionTypes.Delete,
 						CreationDate = DateTime.Now,
 						CreatedByID = userID,
 						EntityID = ((AuditableBase)e.Entity).ID,
@@ -88,7 +87,7 @@ namespace DataContext {
 				} else if (e.Entity is TemporalBase) {
 					var DbValues = e.GetDatabaseValues().ToObject();
 					Audit deleteAudit = new Audit() {
-						AuditActionID = (int)AuditActionTypes.Delete, // enumProps.GetDBID(AuditActionTypes.Delete),
+						AuditActionID = (int)AuditActionTypes.Delete,
 						CreationDate = DateTime.Now,
 						CreatedByID = userID,
 						EntityID = ((TemporalBase)e.Entity).ID,
@@ -111,6 +110,8 @@ namespace DataContext {
 										where e.State == EntityState.Added
 										select e).ToList();
 
+			List<string> Tests = new List<string>();
+
 			foreach (EntityEntry e in areNew) {
 				if (e.Entity is AuditableBase) {
 					if (((AuditableBase)e.Entity).CreationDate <= new DateTime(1999, 1, 1, 0, 0, 0))
@@ -121,6 +122,8 @@ namespace DataContext {
 					if (((TemporalBase)e.Entity).ModifiedByID == 0)
 						((TemporalBase)e.Entity).ModifiedByID = userID;
 				} // if this is a common AuditableBase'd entity
+
+				Tests.Add(JsonConvert.SerializeObject(e.Entity));
 			} // foreach of the INSERT entities
 
 			try {

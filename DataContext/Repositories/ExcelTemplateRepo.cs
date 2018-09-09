@@ -37,5 +37,21 @@ namespace DataContext.Repositories {
 			return Result;
 		}
 
+		public PLSOResponse AddRecordFromExcel(Record record) {
+			var Result = new PLSOResponse();
+
+			try {
+				DataContext.Records.Add(record);
+				DataContext.SaveChanges();
+
+				Result.WasSuccessful = true;
+			} catch (Exception e) {
+				Result.AddMessage(e, nameof(AddRecordFromExcel));
+				logger.LogError(2, e, "Unable to Save Record from Excel");
+			}
+
+			return Result;
+		}
+
 	}
 }

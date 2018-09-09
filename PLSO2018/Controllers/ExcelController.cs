@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DataContext;
+using DataContext.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PLSO2018.Website.Controllers;
 using NPOI.HSSF.UserModel;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using PLSO2018.Website.Support;
-using DataContext.Repositories;
-using PLSO2018.Entities.Support;
+using PLSO2018.DataContext.Services;
 using PLSO2018.Entities;
-using System.IO;
+using PLSO2018.Entities.Support;
+using PLSO2018.Website.Controllers;
 using PLSO2018.Website.Models;
+using PLSO2018.Website.Support;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PLSO2018.Controllers {
 
@@ -25,13 +27,17 @@ namespace PLSO2018.Controllers {
 
 		private ExcelTemplateRepo excelTemplateRepo;
 		private ICellStyle IsBold;
-		private ICellStyle IsTopAlign;
+		//private ICellStyle IsTopAlign;
 		private ICellStyle IsBlue;
 		private ICellStyle IsValidation;
+		private readonly IEnumProperties enumProps;
+		private PLSODb DataContext;
 
-		public ExcelController(ExcelTemplateRepo excelTemplateRepo, ILoggerFactory loggerFactory) {
+		public ExcelController(PLSODb context, ExcelTemplateRepo excelTemplateRepo, IEnumProperties enumProps, IHttpContextAccessor contextAccessor, ILoggerFactory loggerFactory) : base(contextAccessor) {
 			this.excelTemplateRepo = excelTemplateRepo;
 			base.logger = loggerFactory.CreateLogger<ExcelController>();
+			this.enumProps = enumProps;
+			DataContext = context;
 		}
 
 		[Route("GenerateBlankTemplate")]
@@ -118,8 +124,9 @@ namespace PLSO2018.Controllers {
 		public FileStreamResult ProcessExcelFile(Stream stream) {
 			var size = stream.Length;
 			var Errors = new List<ParsingError>();
-			var Records = new List<Record>();
+			var NewRecords = new List<Record>();
 			var TotalErrors = 0;
+			var LatLongTypeID = 2; // enumProps.GetDBID(LocationTypes.LatLong);
 			IWorkbook wb = WorkbookFactory.Create(stream);
 
 			try {
@@ -129,61 +136,60 @@ namespace PLSO2018.Controllers {
 				// Loop through each Row
 				// Loop through each Column in the current row
 				var UseDate = DateTime.UtcNow;
-				var UserID = 1; // Me
 
 				// Row is zero based, skip row 0 (title row), 1 = Example, 2 = Validation
 				for (var r = 3; r <= sheet.LastRowNum; r++) {
 					IRow row = sheet.GetRow(r);
 					var staged = new Record {
-						UploadedByID = UserID,
+						UploadedByID = UsersID,
 						UploadedDate = UseDate,
 						Active = false,
 					};
 					var RowErrors = new List<ParsingError>();
 
 					for (var c = 2; c <= 24; c++) { // c = 2 (Column C to start), 24 (Column Y to end)
-						// # - Req - Title          - Validation
-						// -----------------------------------------------
-						// A - No  - Parsing Errors - None
-						// B - No  - Comments       - None
-						// C - Yes - Map Image Name - 5 digits only
-						// D - Yes - City, Village  - None (max 50)
-						// E - Yes - County         - Minimum length = 5 (max 50)
-						// F - Yes - Defunct Twp    - None (max 50)
-						// G - No  - Lot Number     - Numbers only, seperated by comma's, no spaces
-						// H - No  - Section        - "
-						// I - No  - Tract          - None
-						// J - No  - Range          - None
-						// K - Yes - Survey Date    - MM/DD/YYYY
-						// L - Yes - Surveyor Name  - None
-						// M - No  - Surveyor No.   - Digits only
-						// N - Yes - Address        - Full address
-						// O - No  - Cross Street   - None
-						// P - No  - Parcel Numbers - ###-##-###,###-##-###...
-						// Q - No  - Volume         - Digits only
-						// R - No  - Page           - "
-						// S - No  - AFN...         - None
-						// T - No  - Subdivision    - None
-						// U - No  - Subd. Lot      - Digits only, seperated by commas
-						// V - No  - Survey Name    - None
-						// W - No  - Location       - Latitude on Longitude seperated by commas
-						// X - No  - Client         - None
-						// Y - No  - Notes          - None
+																					// # - Req - Title          - Validation
+																					// -----------------------------------------------
+																					// A - No  - Parsing Errors - None
+																					// B - No  - Comments       - None
+																					// C - Yes - Map Image Name - 5 digits only
+																					// D - Yes - City, Village  - None (max 50)
+																					// E - Yes - County         - Minimum length = 5 (max 50)
+																					// F - Yes - Defunct Twp    - None (max 50)
+																					// G - No  - Lot Number     - Numbers only, seperated by comma's, no spaces
+																					// H - No  - Section        - "
+																					// I - No  - Tract          - None
+																					// J - No  - Range          - None
+																					// K - Yes - Survey Date    - MM/DD/YYYY
+																					// L - Yes - Surveyor Name  - None
+																					// M - No  - Surveyor No.   - Digits only
+																					// N - Yes - Address        - Full address
+																					// O - No  - Cross Street   - None
+																					// P - No  - Parcel Numbers - ###-##-###,###-##-###...
+																					// Q - No  - Volume         - Digits only
+																					// R - No  - Page           - "
+																					// S - No  - AFN...         - None
+																					// T - No  - Subdivision    - None
+																					// U - No  - Subd. Lot      - Digits only, seperated by commas
+																					// V - No  - Survey Name    - None
+																					// W - No  - Location       - Latitude on Longitude seperated by commas
+																					// X - No  - Client         - None
+																					// Y - No  - Notes          - None
 
 						var pCell = new ParsingCell(row.GetCell(c), r, c);
 
 						if (c == 2) {
 							// Column C: Map Image Name
-							var Check = RequiredString(pCell, 25, 5);
+							var Check = RequiredString(pCell, 15, 5);
 
 							if (Check.InError) {
 								RowErrors.AddRange(Check.Errors);
 							} else {
-								staged.ImageFileName = Check.Result;
+								staged.MapImageName = Check.Result;
 							}
 						} else if (c == 3) {
 							// Column D: City, Village, Township
-							var Check = RequiredString(pCell, 30, 5);
+							var Check = RequiredString(pCell, 25, 5);
 
 							if (Check.InError) {
 								RowErrors.AddRange(Check.Errors);
@@ -192,7 +198,7 @@ namespace PLSO2018.Controllers {
 							}
 						} else if (c == 4) {
 							// Column E: County
-							var Check = RequiredString(pCell, 25, 5);
+							var Check = RequiredString(pCell, 15, 5);
 
 							if (Check.InError) {
 								RowErrors.AddRange(Check.Errors);
@@ -201,7 +207,7 @@ namespace PLSO2018.Controllers {
 							}
 						} else if (c == 5) {
 							// Column F: Defunct Township
-							var Check = RequiredString(pCell, 30, 5);
+							var Check = RequiredString(pCell, 20, 5);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
@@ -209,7 +215,7 @@ namespace PLSO2018.Controllers {
 								staged.DefunctTownship = Check.Result.Replace("township", "");
 						} else if (c == 6) {
 							// Column G: Lot Numbers
-							var Check = DelimetedDigitsOnly(pCell, ',', 25, 0, true);
+							var Check = DelimetedDigitsOnly(pCell, ',', 15, 0, true);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
@@ -217,7 +223,7 @@ namespace PLSO2018.Controllers {
 								staged.LotNumbers = Check.Result;
 						} else if (c == 7) {
 							// Column H: Section
-							var Check = DelimetedDigitsOnly(pCell, ',', 25, 0, true);
+							var Check = DelimetedDigitsOnly(pCell, ',', 15, 0, true);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
@@ -225,7 +231,7 @@ namespace PLSO2018.Controllers {
 								staged.Section = Check.Result;
 						} else if (c == 8) {
 							// Column I: Tract
-							var Check = NonRequiredString(pCell, 25);
+							var Check = NonRequiredString(pCell, 15);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
@@ -233,13 +239,13 @@ namespace PLSO2018.Controllers {
 								staged.Tract = Check.Result;
 						} else if (c == 9) {
 							// Column J: Range
-							var Check = NonRequiredString(pCell, 25);
+							var Check = NonRequiredString(pCell, 15);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else
 								staged.Range = Check.Result;
-						} else if (c ==10) {
+						} else if (c == 10) {
 							// Column K: Survey Date
 							var Check = RequiredDate(pCell);
 
@@ -255,10 +261,9 @@ namespace PLSO2018.Controllers {
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
 							else {
-								var Surv = new ApplicationUser {
-									FirstName = ""
-								};
-								staged.Surveyor = Surv;
+								staged.SurveyorName = Check.Result;
+								// TODO: Lookup the name in the security.AspNetUser table
+								// If found, add the ID to the staged.SurveyorID field
 							}
 						} else if (c == 12) {
 							// Column M: Surveyor Number
@@ -286,7 +291,7 @@ namespace PLSO2018.Controllers {
 								staged.CrossStreet = Check.Result;
 						} else if (c == 15) {
 							// Column P: Parcel Numbers
-							var Check = DelimetedDigitsOnly(pCell, new List<char> { ',', '-' }, 50);
+							var Check = DelimetedDigitsOnly(pCell, new List<char> { ',', '-' }, 30);
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
@@ -345,12 +350,16 @@ namespace PLSO2018.Controllers {
 								staged.SurveyName = Check.Result;
 						} else if (c == 22) {
 							// Column W: Location
-							var Check = DelimetedDigitsOnly(pCell, new List<char> { ',', '.', '-' }, 30);
+							var Check = DelimetedDigitsOnly(pCell, new List<char> { ',', '.', '-' }, 30, truncateSpaces: true);
+							int Parts = string.IsNullOrWhiteSpace(Check.Result) ? 0 : Check.Result.Split(',').Count();
 
 							if (Check.InError)
 								RowErrors.AddRange(Check.Errors);
+							else if ((Parts == 1) || (Parts > 2))
+								RowErrors.Add(new ParsingError(pCell, "Invalid Format for Location"));
 							else if (!string.IsNullOrWhiteSpace(Check.Result)) {
 								var Loc = new Location {
+									LocationTypeID = LatLongTypeID,
 									Latitude = Convert.ToDecimal(Check.Result.Split(',')[0]),
 									Longitude = Convert.ToDecimal(Check.Result.Split(',')[1])
 								};
@@ -385,8 +394,8 @@ namespace PLSO2018.Controllers {
 							cell.CellStyle = IsError;
 						}
 					} else {
-						Records.Add(staged); // Only add the record if the row is valid
-						CommentCell.SetCellValue("OK");
+						NewRecords.Add(staged); // Only add the record if the row is valid
+						CommentCell.SetCellValue("Validation: OK");
 					}
 
 					Errors.AddRange(RowErrors);
@@ -400,8 +409,33 @@ namespace PLSO2018.Controllers {
 
 			if (TotalErrors > 0)
 				Console.WriteLine($"There were a total of {TotalErrors} errors.");
-			else
-				Console.WriteLine($"Saving {Records.Count} Records to the database.");
+			else {
+				int WriteErrors = 0;
+				Console.Clear(); // TODO: Remove this line
+				Console.WriteLine($"Saving {NewRecords.Count} Records to the database.");
+
+				ISheet sheet = wb.GetSheetAt(0);
+
+				for (int index = 0; index < NewRecords.Count; index++) {
+					IRow row = sheet.GetRow(3 + index);
+					//var pCell = new ParsingCell(row.GetCell(0), 3 + index, 0);
+
+					var r = NewRecords[index];
+					r.HashCode = r.GetHashCode();
+
+					try {
+						DataContext.Records.Add(r);
+						DataContext.SaveChanges(1);
+						row.GetCell(0).SetCellValue($"{row.GetCell(0).StringCellValue}, Save: OK - {r.ID}");
+					} catch (Exception e) {
+						row.GetCell(0).SetCellValue($"{row.GetCell(0).StringCellValue}, Save: Failed - {(e.InnerException != null ? e.InnerException.Message : e.Message)}");
+						WriteErrors++;
+					}
+				} // foreach of the Records
+
+				if (WriteErrors > 0)
+					Console.WriteLine($"There were a total of {WriteErrors} Write errors.");
+			}
 
 			var TheStream = new NPOIMemoryStream {
 				AllowClose = false
@@ -493,7 +527,7 @@ namespace PLSO2018.Controllers {
 				Result.Errors.Add(AddCellError(cell, $"Input string contains characters other than digits"));
 
 			if (Result.InError == false)
-				Result.Result = input;
+				Result.Result = string.IsNullOrWhiteSpace(input) ? null : input;
 
 			return Result;
 		}
@@ -514,7 +548,7 @@ namespace PLSO2018.Controllers {
 				Result.Errors.Add(AddCellError(cell, $"Input string contains characters other than digits and the desired delimeter"));
 
 			if (Result.InError == false)
-				Result.Result = input;
+				Result.Result = string.IsNullOrWhiteSpace(input) ? null : input;
 
 			return Result;
 		}
@@ -530,12 +564,12 @@ namespace PLSO2018.Controllers {
 				Result.Errors.Add(AddCellError(cell, $"Input string exceeds the maximum length of {maxLength}"));
 			else if ((minLength > 0) && (input.Length < minLength) && (input.Length > 0))
 				Result.Errors.Add(AddCellError(cell, $"Input string must be at least {minLength} characters"));
-			                   
+
 			if (!input.All(c => (((c >= '0') && (c <= '9')) || (delimiters.Contains(c)))))
 				Result.Errors.Add(AddCellError(cell, $"Input string contains characters other than digits and any of the desired delimiters"));
 
 			if (Result.InError == false)
-				Result.Result = input;
+				Result.Result = string.IsNullOrWhiteSpace(input) ? null : input;
 
 			return Result;
 		}
@@ -567,7 +601,7 @@ namespace PLSO2018.Controllers {
 				Result.Errors.Add(AddCellError(cell, $"Input string must be at least {minLength} characters"));
 
 			if (Result.InError == false)
-				Result.Result = input;
+				Result.Result = string.IsNullOrWhiteSpace(input) ? null : input;
 
 			return Result;
 		}

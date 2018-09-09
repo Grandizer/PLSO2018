@@ -1,11 +1,11 @@
 ﻿While in the Solution\DataContext folder:
 
-dotnet ef migrations add NewStuff -s ..\PLSO2018    To create a migration called NewStuff
-dotnet ef migrations remove       -s ..\PLSO2018    To remove (the last) migration
+dotnet ef migrations add InitialMigration -s ..\PLSO2018    To create a migration called NewStuff
+dotnet ef migrations remove               -s ..\PLSO2018    To remove (the last) migration
 
-dotnet ef database update         -s ..\PLSO2018    To apply migrations to the database
-dotnet ef database update BackTo  -s ..\PLSO2018    To Unapply migration(s) back to the BackTo migration
-dotnet ef database drop           -s ..\PLSO2018    To drop/delete the database
+dotnet ef database update                 -s ..\PLSO2018    To apply migrations to the database
+dotnet ef database update BackTo          -s ..\PLSO2018    To Unapply migration(s) back to the BackTo migration
+dotnet ef database drop                   -s ..\PLSO2018    To drop/delete the database
 
 
 Migrations: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations

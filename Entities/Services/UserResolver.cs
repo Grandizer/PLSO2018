@@ -2,7 +2,7 @@
 using System;
 using System.Security.Claims;
 
-namespace DataContext.Services {
+namespace PLSO2018.Entities.Services {
 
 	public class UserResolver {
 

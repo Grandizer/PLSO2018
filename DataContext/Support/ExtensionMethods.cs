@@ -1,17 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity;
+﻿using DataContext.Services;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DataContext.Services;
 
 namespace DataContext.Support {
 
@@ -33,6 +27,41 @@ namespace DataContext.Support {
 			// logger.Log(LogLevel.Information, 70, "Some message", new Exception(""), (msg, exc) => ("Forced:" + msg));
 			// Note: "Forced:" is required and will get stripped off before saving to the database
 			logger.Log(LogLevel.Information, eventId, message, new Exception(""), (msg, exe) => ("Forced: " + message));
+		}
+
+		// http://stackoverflow.com/a/42932812/373438
+		public static RelationalDataReader ExecuteSqlQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters) {
+			var concurrencyDetector = databaseFacade.GetService<IConcurrencyDetector>();
+
+			using (concurrencyDetector.EnterCriticalSection()) {
+				var rawSqlCommand = databaseFacade
+						.GetService<IRawSqlCommandBuilder>()
+						.Build(sql, parameters);
+
+				return rawSqlCommand
+						.RelationalCommand
+						.ExecuteReader(
+								databaseFacade.GetService<IRelationalConnection>(),
+								parameterValues: rawSqlCommand.ParameterValues);
+			}
+		}
+
+		public static async Task<RelationalDataReader> ExecuteSqlQueryAsync(this DatabaseFacade databaseFacade, string sql, CancellationToken cancellationToken = default(CancellationToken), params object[] parameters) {
+			var concurrencyDetector = databaseFacade.GetService<IConcurrencyDetector>();
+
+			using (concurrencyDetector.EnterCriticalSection()) {
+				var rawSqlCommand = databaseFacade
+						.GetService<IRawSqlCommandBuilder>()
+						.Build(sql, parameters);
+
+				return await rawSqlCommand
+						.RelationalCommand
+						.ExecuteReaderAsync(
+							databaseFacade.GetService<IRelationalConnection>(),
+							parameterValues: rawSqlCommand.ParameterValues,
+							cancellationToken: cancellationToken
+						);
+			}
 		}
 
 	}
