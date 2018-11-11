@@ -1,24 +1,107 @@
 ﻿// Configure bundling and minification for the project.
 // More info at https://go.microsoft.com/fwlink/?LinkId=808241
 [
-  {
-    "outputFileName": "wwwroot/css/site.min.css",
-    // An array of relative input file paths. Globbing patterns supported
-    "inputFiles": [
-      "wwwroot/css/site.css"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/site.min.js",
-    "inputFiles": [
-      "wwwroot/js/site.js"
-    ],
-    // Optionally specify minification options
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    // Optionally generate .map file
-    "sourceMap": false
-  }
+	{
+		"outputFileName": "wwwroot/css/site.min.css",
+		// An array of relative input file paths. Globbing patterns supported
+		"inputFiles": [
+			"wwwroot/css/site.css"
+		]
+	},
+	{
+		"outputFileName": "wwwroot/js/site.min.js",
+		"inputFiles": [
+			"wwwroot/js/site.js"
+		],
+		// Optionally specify minification options
+		"minify": {
+			"enabled": true,
+			"renameLocals": true
+		},
+		// Optionally generate .map file
+		"sourceMap": false
+	},
+	// Bootstrap - The bundle file includes both Bootstrap and Popper
+	// node_modules/bootstrap/dist/js
+	{
+		"inputFiles": [
+			"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+		],
+		"outputFileName": "wwwroot/lib/bootstrap/bootstrap.bundle.min.js"
+	},
+	{
+		"inputFiles": [
+			"node_modules/bootstrap/dist/css/bootstrap.css"
+		],
+		"outputFileName": "wwwroot/lib/bootstrap/bootstrap.css",
+		"minify": {
+			"enabled": false
+		}
+	},
+	{
+		"inputFiles": [
+			"node_modules/bootstrap/dist/css/bootstrap.min.css"
+		],
+		"outputFileName": "wwwroot/lib/bootstrap/bootstrap.min.css",
+		"minify": {
+			"enabled": false
+		}
+	},
+	{
+		"inputFiles": [
+			"node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"
+		],
+		"outputFileName": "wwwroot/lib/bootstrap-datepicker/bootstrap-datepicker.min.js"
+	},
+	{
+		"inputFiles": [
+			"node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css"
+		],
+		"outputFileName": "wwwroot/lib/bootstrap-datepicker/bootstrap-datepicker.min.css"
+	},
+	// Chart.js
+	{
+		"inputFiles": [
+			"node_modules/chart.js/dist/Chart.min.js"
+		],
+		"outputFileName": "wwwroot/lib/chart/Chart.min.js"
+	},
+	// JQuery
+	{
+		"inputFiles": [
+			"node_modules/jquery/dist/jquery.min.js"
+		],
+		"outputFileName": "wwwroot/lib/jquery/jquery.min.js"
+	},
+	{
+		"inputFiles": [
+			"node_modules/jquery-validation/dist/jquery.validate.min.js"
+		],
+		"outputFileName": "wwwroot/lib/jquery/jquery.validate.min.js"
+	},
+	{
+		"inputFiles": [
+			"node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+		],
+		"outputFileName": "wwwroot/lib/jquery/jquery.validate.unobtrusive.js"
+	},
+	{
+		"inputFiles": [
+			"node_modules/jquery-ui/external/requirejs/require.js"
+		],
+		"outputFileName": "wwwroot/lib/jquery/require.js"
+	},
+	{
+		"inputFiles": [
+			"node_modules/jquery-ui/ui/jquery-1-7.js"
+		],
+		"outputFileName": "wwwroot/lib/jquery/jquery-ui-1-7.js"
+	},
+	// Vue
+	{
+		"inputFiles": [
+			"node_modules/vue/dist/vue.js"
+		],
+		"outputFileName": "wwwroot/lib/vue/vue.min.js"
+	}
 ]

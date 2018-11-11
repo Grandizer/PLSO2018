@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(PLSODb))]
-    [Migration("20180909174827_InitialMigration")]
+    [Migration("20181028165233_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -636,6 +636,8 @@ namespace DataContext.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
+
+                    b.Property<bool>("Approved");
 
                     b.Property<string>("AutomatedFileNumber")
                         .HasMaxLength(18)

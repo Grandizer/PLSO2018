@@ -120,6 +120,7 @@ namespace PLSO2018.Controllers {
 		}
 
 		private ICellStyle IsError = null;
+		private ICellStyle IsComment = null;
 
 		public FileStreamResult ProcessExcelFile(Stream stream) {
 			var size = stream.Length;
@@ -131,6 +132,7 @@ namespace PLSO2018.Controllers {
 
 			try {
 				IsError = CreateErrorStyle(wb);
+				IsComment = CreateCommentStyle(wb);
 				ISheet sheet = wb.GetSheetAt(0);
 
 				// Loop through each Row
@@ -387,7 +389,8 @@ namespace PLSO2018.Controllers {
 					var CommentCell = row.GetCell(0) ?? row.CreateCell(0);
 
 					if (RowErrors.Count > 0) {
-						CommentCell.SetCellValue($"{RowErrors.Count}: {string.Join(", ", RowErrors.Select(x => $"[{ColumnIndexToLetter(x.Cell.Column + 1)}] {x.Message}"))}");
+						CommentCell.SetCellValue(new XSSFRichTextString($"{RowErrors.Count} Errors:\n{string.Join("\n", RowErrors.Select(x => $"[{ColumnIndexToLetter(x.Cell.Column + 1)}] {x.Message}"))}"));
+						CommentCell.CellStyle = IsComment;
 
 						foreach (var error in RowErrors) {
 							var cell = error.Cell.Cell == null ? row.CreateCell(error.Cell.Column) : row.GetCell(error.Cell.Column);
@@ -674,7 +677,14 @@ namespace PLSO2018.Controllers {
 			var Result = workbook.CreateCellStyle();
 			Result.FillForegroundColor = HSSFColor.Red.Index;
 			Result.FillPattern = FillPattern.ThickBackwardDiagonals;
+			return Result;
+		}
 
+		private static ICellStyle CreateCommentStyle(IWorkbook workbook) {
+			var Result = workbook.CreateCellStyle();
+			Result.Alignment = HorizontalAlignment.Left;
+			Result.VerticalAlignment = VerticalAlignment.Top;
+			Result.WrapText = true;
 			return Result;
 		}
 

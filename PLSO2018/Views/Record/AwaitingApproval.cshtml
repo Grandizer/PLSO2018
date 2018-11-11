@@ -1,0 +1,49 @@
+﻿@model RecordApprovalModel
+@{
+	ViewData["Title"] = "AwaitingApproval";
+}
+
+<h2>Awaiting Approval</h2>
+
+<input type="hidden" id="hdnRecords" value="@JsonConvert.SerializeObject(Model.Records)" />
+
+<div id="app">
+
+	<div class="row">
+		<div class="col">
+			<button type="button" v-on:click="swapSelections(true)" class="btn btn-sm btn-outline-secondary">Select All</button>
+			<button type="button" v-on:click="swapSelections(false)" class="btn btn-sm btn-outline-secondary">Unselect All</button>
+			<button type="button" v-on:click="approveSelected" v:bind:disabled="noneSelected" class="btn btn-sm btn-outline-primary">Approve Selected</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Uploaded Date</th>
+						<th>Map Image</th>
+						<th>Survey Date</th>
+						<th>Surveyor Name</th>
+						<th>Address</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(record, x) in Records">
+						<td><input type="checkbox" v-model="Selected" v-bind:value="record.ID" /></td>
+						<td>{{ record.UploadedDate }}</td>
+						<td>{{ record.MapImageName }}</td>
+						<td>{{ record.SurveyDate }}</td>
+						<td>{{ record.SurveyorName }}</td>
+						<td>{{ record.Address }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="~/lib/vue/vue.min.js"></script>
+<script type="text/javascript" src="~/js/AwaitingApproval.js"></script>

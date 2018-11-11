@@ -20,6 +20,7 @@ using DataContext.Repositories;
 using PLSO2018.Controllers;
 using PLSO2018.Website.Models;
 using PLSO2018.DataContext.Services;
+using PLSO2018.Controllers.API;
 
 namespace PLSO2018.Website {
 
@@ -64,6 +65,8 @@ namespace PLSO2018.Website {
 			services.AddTransient(typeof(UserResolver));
 			services.AddScoped<IEnumProperties, EnumPropertiesService>();
 			services.AddScoped(typeof(ExcelController));
+			services.AddScoped(typeof(RecordController));
+			services.AddScoped(typeof(RecordsController));
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>(config => {
 				config.SignIn.RequireConfirmedEmail = true;
@@ -113,6 +116,7 @@ namespace PLSO2018.Website {
 
 			// Add Repositories here
 			services.AddScoped(typeof(ExcelTemplateRepo));
+			services.AddScoped(typeof(RecordRepo));
 
 			services.AddMvc();
 		}
@@ -138,6 +142,9 @@ namespace PLSO2018.Website {
 				routes.MapRoute(
 						name: "default",
 						template: "{controller=Home}/{action=Index}/{id?}");
+				routes.MapRoute(
+						name: "api",
+						template: "api/{controller=Home}/{action=Index}/{id?}");
 			});
 
 			// So we can create instances of DI items when you can not inject them naturally

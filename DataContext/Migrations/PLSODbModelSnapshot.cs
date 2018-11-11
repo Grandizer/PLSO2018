@@ -15,7 +15,7 @@ namespace DataContext.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -634,6 +634,8 @@ namespace DataContext.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
+
+                    b.Property<bool>("Approved");
 
                     b.Property<string>("AutomatedFileNumber")
                         .HasMaxLength(18)

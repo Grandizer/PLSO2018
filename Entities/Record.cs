@@ -38,7 +38,8 @@ namespace PLSO2018.Entities {
 		public string Notes { get; set; } // Was Description
 
 		public string ImagePath { get; set; }
-		public bool Active { get; set; }
+		public bool Active { get; set; } // This is used to Delete a record without deleting it
+		public bool Approved { get; set; } // This is used to hold back entities from search results until approved
 		public int UploadedByID { get; set; }
 		public DateTimeOffset UploadedDate { get; set; }
 		public int HashCode { get; set; }

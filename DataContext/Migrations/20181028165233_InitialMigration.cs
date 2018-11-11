@@ -503,6 +503,7 @@ namespace DataContext.Migrations {
 						LocationID = table.Column<int>(nullable: true),
 						UploadedByID = table.Column<int>(nullable: false),
 						Active = table.Column<bool>(nullable: false),
+						Approved = table.Column<bool>(nullable: false),
 						UploadedDate = table.Column<DateTimeOffset>(nullable: false),
 						MapImageName = table.Column<string>(unicode: false, maxLength: 25, nullable: false),
 						ImagePath = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
