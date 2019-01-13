@@ -5,17 +5,70 @@
 
 <h2>File Upload</h2>
 
-<form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Post">
-	<div class="form-group">
-		<div class="col-md-10">
-			<p>Upload one file using this form:</p>
-			<input type="file" name="files" />
+<link rel="stylesheet" href="~/lib/toastr/toastr.min.css" />
+
+<form id="app" method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Post">
+	<div class="row">
+		<div class="col-6">
+			<h3>Step 1: Upload and Validate Excel File</h3>
+			<div class="form-group">
+				<div class="col-md-10">
+					<p>Upload one file using this form:</p>
+					<input type="file" name="files" />
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="form-group">
-		<div class="col-md-10">
-			<input type="submit" value="Upload" class="btn btn-primary" />
+	<div class="row">
+		<div class="col-6">
+			<div class="form-group">
+				<div class="col-md-10">
+					<input type="submit" value="Upload" class="btn btn-primary" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col">
+			<h3>Step 2: Once Validated, Upload All Related Images</h3>
+			<div id="drop-zone" class="text-center mb-2 drop-zone">
+				<i class="text-info">Drag and Drop file(s) here, or copy/paste them.</i>
+			</div>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col">
+			<div v-for="image in images">
+				<div class="mb-2 border image"
+						 v-bind:class="{ 'invalid': !image.Name }"
+						 v-on:dblclick="viewImage">
+					<img v-bind:src="filePrefix(image) + image.FileDataBase64"
+							 height="100"
+							 width="108" />
+					<div class="border-top pl-2 py-1">
+						<div class="d-inline-block text-nowrap text-truncate" style="width: 5rem;">
+							{{ image.Name }}
+							<i v-if="!image.Name" class="text-danger">Unnamed</i>
+						</div>
+						<i class="far float-right pl-1 mt-1"
+							 v-bind:class="{ 'fa-check-circle text-success': image.Id > 0, 'fa-circle text-black-50': image.Id === 0 }"
+							 v-bind:title="(image.Id > 0 ? 'This image has been saved' : 'This image has not yet been saved')"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col">
+			<h3>Step 3: Approve Uploaded Records</h3>
+			<a asp-area="" asp-controller="Record" asp-action="AwaitingApproval">Awaiting Approval</a>
 		</div>
 	</div>
 </form>
 
+<script type="text/javascript" src="~/lib/vue/vue.min.js"></script>
+<script type="text/javascript" src="~/lib/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="~/js/Upload/Upload.js"></script>

@@ -27,16 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Watch Remove="ClientApp\js\AwaitingApproval.js" />
-	  <Watch Remove="Controllers\API\RecordsController.cs" />
-	  <Watch Remove="Models\API\RecordApprovalModel.cs" />
-	  <Watch Remove="Models\ParseResult.cs" />
-	  <Watch Remove="Models\ParsingCell.cs" />
-	  <Watch Remove="Models\ParsingError.cs" />
-	  <Watch Remove="Models\RecordApprovalModel.cs" />
-	  <Watch Remove="Models\SendGridSettings.cs" />
-	  <Watch Remove="Services\AuthMessageSenderOptions.cs" />
-	  <Watch Remove="Views\Upload\Upload.cshtml" />
+	  <Content Remove="wwwroot\js\Upload\Upload.js" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -48,11 +39,8 @@
 	  <None Include="Views\Record\AwaitingApproval.cshtml" />
 	  <None Include="Views\Upload\Upload.cshtml" />
 	  <None Include="Views\Upload\Post.cshtml" />
-	  <None Include="wwwroot\js\AwaitingApproval.js" />
+	  <None Include="wwwroot\js\Record\AwaitingApproval.js" />
+	  <None Include="wwwroot\js\Upload\Upload.js" />
 	</ItemGroup>
 	
-	<ItemGroup>
-	  <Folder Include="ClientApp\js\" />
-	</ItemGroup>
-
 </Project>

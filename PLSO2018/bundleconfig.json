@@ -103,5 +103,18 @@
 			"node_modules/vue/dist/vue.js"
 		],
 		"outputFileName": "wwwroot/lib/vue/vue.min.js"
+	},
+	// Toastr
+	{
+		"inputFiles": [
+			"node_modules/toastr/build/toastr.min.js",
+		],
+		"outputFileName": "wwwroot/lib/toastr/toastr.min.js"
+	},
+	{
+		"inputFiles": [
+			"node_modules/toastr/build/toastr.min.css"
+		],
+		"outputFileName": "wwwroot/lib/toastr/toastr.min.css"
 	}
 ]

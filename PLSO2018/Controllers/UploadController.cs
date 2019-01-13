@@ -35,11 +35,9 @@ namespace PLSO2018.Controllers {
 						await formFile.CopyToAsync(stream);
 						var bob = excelController.ProcessExcelFile(stream);
 						return bob; // File(bob, "application/vnd.ms-excel", "Testing.xlsx");
-
 					}
 				}
 			}
-
 
 			return Ok(new { count = files.Count, size, filePath, firstCell });
 		}
