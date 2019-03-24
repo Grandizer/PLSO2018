@@ -11,6 +11,9 @@
 		<PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
 		<PackageReference Include="DotNetCore.NPOI" Version="1.2.1" />
 		<PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+		<PackageReference Include="Microsoft.AspNetCore.AzureKeyVault.HostingStartup" Version="2.0.2" />
+		<PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.3" />
+		<PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4" PrivateAssets="all">
@@ -41,6 +44,10 @@
 	  <None Include="Views\Upload\Post.cshtml" />
 	  <None Include="wwwroot\js\Record\AwaitingApproval.js" />
 	  <None Include="wwwroot\js\Upload\Upload.js" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <WCFMetadata Include="Connected Services" />
 	</ItemGroup>
 	
 </Project>

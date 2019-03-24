@@ -414,7 +414,7 @@ namespace PLSO2018.Controllers {
 				Console.WriteLine($"There were a total of {TotalErrors} errors.");
 			else {
 				int WriteErrors = 0;
-				Console.Clear(); // TODO: Remove this line
+				var bob = WriteErrors;
 				Console.WriteLine($"Saving {NewRecords.Count} Records to the database.");
 
 				ISheet sheet = wb.GetSheetAt(0);
