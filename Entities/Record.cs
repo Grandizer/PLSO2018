@@ -45,7 +45,7 @@ namespace PLSO2018.Entities {
 		public int HashCode { get; set; }
 
 		public override int GetHashCode() {
-			return $"{MapImageName}{CityVillageTownship}{State}{County}{DefunctTownship}{LotNumbers}{Section}{Tract}{Range}{SurveyDate.ToString()}{SurveyorName}{Address}{CrossStreet}{ParcelNumbers}{AutomatedFileNumber}{Subdivision}{Sublot}{SurveyName}{ClientName}{Notes}{(SurveyorID ?? 0)}{(LocationID ?? 0)}".GetHashCode();
+			return $"{MapImageName}:{CityVillageTownship}:{State}:{County}:{DefunctTownship}:{LotNumbers}:{Section}:{Tract}:{Range}:{SurveyDate.ToString()}:{SurveyorName}:{Address}:{CrossStreet}:{ParcelNumbers}:{AutomatedFileNumber}:{Subdivision}:{Sublot}:{SurveyName}:{ClientName}:{Notes}".GetHashCode();
 		}
 
 	}
