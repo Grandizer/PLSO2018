@@ -1,0 +1,117 @@
+﻿@model EditRecordModel
+@{
+	ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<div class="container">
+	<div class="row">
+		<div class="col-4">
+			<div class="form-group">
+				<label for="Active">Active</label>
+				<input id="Active" type="checkbox" value="@Model.Active" />
+			</div>
+			<div class="form-group">
+				<label for="Approved">Approved</label>
+				<input id="Approved" type="checkbox" value="@Model.Approved" />
+			</div>
+			<div class="form-group">
+				<label for="MapImageName">Map Image Name</label>
+				<input id="MapImageName" type="text" class="form-control" value="@Model.MapImageName" maxlength="25" required />
+			</div>
+			<div class="form-group">
+				<label for="ImagePath">Image Path</label>
+				<input id="ImagePath" type="text" class="form-control" value="@Model.ImagePath" maxlength="255" />
+			</div>
+			<div class="form-group">
+				<label for="CityVillageTownship">City Village Township</label>
+				<input id="CityVillageTownship" type="text" class="form-control" value="@Model.CityVillageTownship" maxlength="30" required />
+			</div>
+			<div class="form-group">
+				<label for="State">State</label>
+				<input id="State" type="text" class="form-control" value="@Model.State" maxlength="30" required />
+			</div>
+			<div class="form-group">
+				<label for="County">County</label>
+				<input id="County" type="text" class="form-control" value="@Model.County" maxlength="25" required />
+			</div>
+			<div class="form-group">
+				<label for="DefunctTownship">Defunct Township</label>
+				<input id="DefunctTownship" type="text" class="form-control" value="@Model.DefunctTownship" maxlength="30" required />
+			</div>
+			<div class="form-group">
+				<label for="LotNumbers">Lot Numbers</label>
+				<input id="LotNumbers" type="text" class="form-control" value="@Model.LotNumbers" maxlength="25" />
+			</div>
+			<div class="form-group">
+				<label for="Section">Section</label>
+				<input id="Section" type="text" class="form-control" value="@Model.Section" maxlength="25" />
+			</div>
+			<div class="form-group">
+				<label for="Tract">Tract</label>
+				<input id="Tract" type="text" class="form-control" value="@Model.Tract" maxlength="25" />
+			</div>
+			<div class="form-group">
+				<label for="Range">Range</label>
+				<input id="Range" type="text" class="form-control" value="@Model.Range" maxlength="25" />
+			</div>
+			<div class="form-group">
+				<label for="SurveyDate">Survey Date</label>
+				<input id="SurveyDate" type="text" class="form-control" value="@Model.SurveyDate" maxlength="10" required />
+			</div>
+			<div class="form-group">
+				<label for="SurveyorName">Surveyor Name</label>
+				<input id="SurveyorName" type="text" class="form-control" value="@Model.SurveyorName" maxlength="50" required />
+			</div>
+			<div class="form-group">
+				<label for="SurveyorNumber">Surveyor Number</label>
+				<input id="SurveyorNumber" type="text" class="form-control" value="@Model.SurveyorNumber" maxlength="5" />
+			</div>
+			<div class="form-group">
+				<label for="Address">Address</label>
+				<input id="Address" type="text" class="form-control" value="@Model.Address" maxlength="100" required />
+			</div>
+			<div class="form-group">
+				<label for="CrossStreet">Cross Street</label>
+				<input id="CrossStreet" type="text" class="form-control" value="@Model.CrossStreet" maxlength="30" />
+			</div>
+			<div class="form-group">
+				<label for="ParcelNumbers">Parcel Numbers</label>
+				<input id="ParcelNumbers" type="text" class="form-control" value="@Model.ParcelNumbers" maxlength="50" />
+			</div>
+			<div class="form-group">
+				<label for="DeedVolume">Deed Volume</label>
+				<input id="DeedVolume" type="text" class="form-control" value="@Model.DeedVolume" maxlength="15" />
+			</div>
+			<div class="form-group">
+				<label for="DeedPage">Deet Page</label>
+				<input id="DeedPage" type="text" class="form-control" value="@Model.DeedPage" maxlength="5" />
+			</div>
+			<div class="form-group">
+				<label for="AutomatedFileNumber">Automated File Number</label>
+				<input id="AutomatedFileNumber" type="text" class="form-control" value="@Model.AutomatedFileNumber" maxlength="18" />
+			</div>
+			<div class="form-group">
+				<label for="Subdivision">Subdivision</label>
+				<input id="Subdivision" type="text" class="form-control" value="@Model.Subdivision" maxlength="50" />
+			</div>
+			<div class="form-group">
+				<label for="Sublot">Sublot</label>
+				<input id="Sublot" type="text" class="form-control" value="@Model.Sublot" maxlength="10" />
+			</div>
+			<div class="form-group">
+				<label for="SurveyName">Survey Name</label>
+				<input id="SurveyName" type="text" class="form-control" value="@Model.SurveyName" maxlength="50" />
+			</div>
+			<div class="form-group">
+				<label for="ClientName">Client Name</label>
+				<input id="ClientName" type="text" class="form-control" value="@Model.ClientName" maxlength="50" />
+			</div>
+			<div class="form-group">
+				<label for="Notes">Notes</label>
+				<textarea id="Notes" class="form-control" maxlength="2000">@Model.Notes</textarea>
+			</div>
+		</div>
+	</div>
+</div>

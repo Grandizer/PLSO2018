@@ -19,7 +19,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4" PrivateAssets="all">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" PrivateAssets="All" />
 		<PackageReference Include="Sendgrid" Version="9.10.0" />
 	</ItemGroup>
 
@@ -32,6 +32,10 @@
 	<ItemGroup>
 	  <Content Remove="wwwroot\js\Upload\Upload.js" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Watch Remove="Models\EditRecordModel.cs" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\DataContext\DataContext.csproj" />
@@ -40,6 +44,7 @@
 	
 	<ItemGroup>
 	  <None Include="Views\Record\AwaitingApproval.cshtml" />
+	  <None Include="Views\Record\Edit.cshtml" />
 	  <None Include="Views\Upload\Upload.cshtml" />
 	  <None Include="Views\Upload\Post.cshtml" />
 	  <None Include="wwwroot\js\Record\AwaitingApproval.js" />

@@ -25,6 +25,24 @@ namespace DataContext.Repositories {
 			UserID = user.HasClaim(x => x.Type == Constants.Claims.User.ID) ? Convert.ToInt32(user.FindFirst(Constants.Claims.User.ID).Value) : 0;
 		}
 
+		public async Task<PLSOResponse<Record>> GetRecordById(int id)
+		{
+			var Result = new PLSOResponse<Record>();
+
+			try {
+				Result.Result = await DataContext.Records
+					.Where(x => x.ID == id)
+					.FirstOrDefaultAsync();
+
+				Result.WasSuccessful = true;
+			} catch(Exception e) {
+				Result.AddMessage(e, nameof(GetRecordById));
+				logger.LogError(3, e, "Unable to gather record");
+			}
+
+			return Result;
+		}
+
 		public async Task<PLSOResponse<List<Record>>> GetRecordsAwaitingApproval() {
 			var Result = new PLSOResponse<List<Record>>();
 

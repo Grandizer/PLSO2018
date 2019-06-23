@@ -32,6 +32,7 @@ namespace PLSO2018.Controllers
         //private ICellStyle IsTopAlign;
         private ICellStyle IsBlue;
         private ICellStyle IsValidation;
+        private ICellStyle IsInteger = null;
         private readonly IEnumProperties enumProps;
         private PLSODb DataContext;
 
@@ -49,7 +50,7 @@ namespace PLSO2018.Controllers
             var TheStream = new NPOIMemoryStream {
                 AllowClose = false
             };
-
+            var IntegerFields = new List<string> { "*** Surveyor Number", "DeedVolume", "DeedPage", "AutomatedFileNumber" };
             var FileName = $"PLSO_Upload_Template {DateTime.Now.ToString("yy-MMdd")}-{DateTime.Now.Ticks}.xlsx";
 
             try {
@@ -60,6 +61,7 @@ namespace PLSO2018.Controllers
                 IsBold = CreateBoldStyle(workbook);
                 IsBlue = CreateBlueStyle(workbook);
                 IsValidation = CreateValidationStyle(workbook);
+                IsInteger = CreateIntegerStyle(workbook);
 
                 int RowIndex = 0;
 
@@ -106,9 +108,16 @@ namespace PLSO2018.Controllers
                         if (col.IsRequired)
                             Cell.CellStyle = IsBold;
 
-                        Cell.SetCellType(CellType.String);
+                        if (col.FieldName == "SurveyDate") {
+                            IDataFormat dataFormat = workbook.CreateDataFormat();
+                            Cell.CellStyle.DataFormat = dataFormat.GetFormat("M/d/yyyy");
+                        } else if (IntegerFields.Contains(col.FieldName)) {
+                            Cell.SetCellType(CellType.Numeric);
+                            Cell.CellStyle = IsInteger;
+                        } else
+                            Cell.SetCellType(CellType.String);
                     } // foreach of the columns on the Display Name row
-                }
+                } // for 5 rows add formatting and make the cell bold if required
 
                 XSSFFormulaEvaluator.EvaluateAllFormulaCells(workbook);
 
@@ -759,6 +768,13 @@ namespace PLSO2018.Controllers
             Result.Alignment = HorizontalAlignment.Left;
             Result.VerticalAlignment = VerticalAlignment.Top;
             Result.WrapText = true;
+            return Result;
+        }
+
+        private static ICellStyle CreateIntegerStyle (IWorkbook workbook)
+        {
+            var Result = workbook.CreateCellStyle();
+            Result.DataFormat = workbook.CreateDataFormat().GetFormat("###0");
             return Result;
         }
 

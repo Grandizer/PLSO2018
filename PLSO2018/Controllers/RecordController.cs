@@ -1,5 +1,6 @@
 ﻿using DataContext.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using PLSO2018.Entities;
 using PLSO2018.Website.Controllers;
 using PLSO2018.Website.Models;
 using System.Threading.Tasks;
@@ -24,6 +25,17 @@ namespace PLSO2018.Controllers {
 
 			if (Records.WasSuccessful)
 				Result.Records = Records.Result;
+
+			return View(Result);
+		}
+
+		public async Task<IActionResult> Edit(int id)
+		{
+			var Result = new EditRecordModel();
+			var Response = await recordRepo.GetRecordById(id);
+
+			if (Response.WasSuccessful)
+				Result = new EditRecordModel(Response.Result);
 
 			return View(Result);
 		}
